@@ -1,7 +1,8 @@
-#include "imgui.h"
-#include "imgui_impl_glfw.h"
+/*#include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "helpers/RootDir.h"
+
+#include "CameraRenderer.h"
 
 #include <stdio.h>
 #include <glad/glad.h>
@@ -11,11 +12,19 @@
 #include "Shader.h"
 #include "Camera.h"
 
+// GL 3.0 + GLSL 130
+const char* GLSL_VERSION = "#version 330";
+
 const unsigned int SCR_WIDTH = 1280;
 const unsigned int SCR_HEIGHT = 720;
 
 const float PI = 3.141592653589793f;
+
+//object properties, TMP
 float speed_x, speed_y;
+float pos_x, pos_y, pos_z;
+float rot_x, rot_y, rot_z;
+float scale_x = 1, scale_y = 1, scale_z = 1;
 
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
@@ -37,15 +46,12 @@ void processInput(GLFWwindow* window)
         speed_x = -PI;
 }
 
-int main(int, char**)
-{
+GLFWwindow* initWindow() {
     // Setup window
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
-        return 1;
+        exit(1);
 
-    // GL 3.0 + GLSL 130
-    const char* glsl_version = "#version 330";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -54,17 +60,14 @@ int main(int, char**)
     // Create window with graphics context
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "ProjektGKW", NULL, NULL);
     if (window == NULL)
-        return 1;
+        exit(1);
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1); // Enable vsync
 
-    // glad: load all OpenGL function pointers
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return -1;
-    }
+    return window;
+}
 
+ImGuiIO& setupImGui() {
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -87,18 +90,44 @@ int main(int, char**)
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
 
+    return io;
+}
+
+void loadGlad() {
+    // glad: load all OpenGL function pointers
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        std::cout << "Failed to initialize GLAD" << std::endl;
+        exit(-1);
+    }
+}
+
+int main(int, char**)
+{
+    GLFWwindow* window = initWindow();
+
+    loadGlad();
+
+    ImGuiIO& io = setupImGui();
+
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplOpenGL3_Init(glsl_version);
+    ImGui_ImplOpenGL3_Init(GLSL_VERSION);
 
     // Our state
-    bool show_demo_window = true;
+    bool show_demo_window = false;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-    Shader shader(ROOT_DIR "res/shaders/shader.vert", ROOT_DIR "res/shaders/shader.frag");
 
-    float vertices[] = {
+    float deltaTime{ 0.f }, lastFrame{ 0.f };
+    float angle_x{ 0.f }, angle_y{ 0.f };
+
+    Scene* scene = new Scene();
+    SceneObject* sampleObject = new SceneObject("root");
+    SceneObject* sampleChild = new SceneObject("child", sampleObject);
+    scene->setRootObject(sampleObject);
+    std::vector<float> vertices = {
         //ściana 1
         1.0f,-1.0f,-1.0f,1.0f,
         -1.0f, 1.0f,-1.0f,1.0f,
@@ -155,27 +184,21 @@ int main(int, char**)
         1.0f, 1.0f,-1.0f,1.0f,
     };
 
-    unsigned int VBO, VAO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
+    sampleObject->getMesh()->vertices = vertices;
+    sampleObject->getMesh()->verticesCount = 36;
+    sampleObject->getTransform()->position = Vector3(0, 0, -1);
+    sampleObject->getTransform()->rotation = Quaternion(45, 45, 0);
+    sampleObject->getTransform()->scale = Vector3(0.5, 0.5, 0.5);
 
-    glBindVertexArray(VAO);
+    sampleChild->getMesh()->vertices = vertices;
+    sampleChild->getMesh()->verticesCount = 36;
+    sampleChild->getTransform()->position = Vector3(0, 0, -2);
+    sampleChild->getTransform()->rotation = Quaternion(45, 45, 0);
+    sampleChild->getTransform()->scale = Vector3(0.5, 0.5, 0.5);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    // position attribute
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+    CameraRenderer* renderer = new CameraRenderer(window, &camera, scene);
 
 
-    // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
-    // -------------------------------------------------------------------------------------------
-    shader.use();
-    float deltaTime{ 0.f }, lastFrame{ 0.f };
-    float angle_x{ 0.f }, angle_y{ 0.f };
-
-    // Main loop
     while (!glfwWindowShouldClose(window))
     {
         // Poll and handle events (inputs, window resize, etc.)
@@ -195,7 +218,6 @@ int main(int, char**)
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
 
@@ -219,6 +241,22 @@ int main(int, char**)
             ImGui::Text("counter = %d", counter);
 
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+            ImGui::Text("position");
+            ImGui::SliderFloat("x_pos", &pos_x, -2, 2);
+            ImGui::SliderFloat("y_pos", &pos_y, -2, 2);
+            ImGui::SliderFloat("z_pos", &pos_z, -2, 2);
+
+            ImGui::Text("rotation");
+            ImGui::SliderFloat("x_rot", &rot_x, -360, 360);
+            ImGui::SliderFloat("y_rot", &rot_y, -360, 360);
+            ImGui::SliderFloat("z_rot", &rot_z, -360, 360);
+
+            ImGui::Text("scale");
+            ImGui::SliderFloat("x_scale", &scale_x, -2, 2);
+            ImGui::SliderFloat("y_scale", &scale_y, -2, 2);
+            ImGui::SliderFloat("z_scale", &scale_z, -2, 2);
+
             ImGui::End();
         }
 
@@ -237,13 +275,7 @@ int main(int, char**)
 
         // Rendering
         ImGui::Render();
-        int display_w, display_h;
-        glfwGetFramebufferSize(window, &display_w, &display_h);
-        glViewport(0, 0, display_w, display_h);
-        glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-        glClear(GL_COLOR_BUFFER_BIT);
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-    	
+        
         // Update and Render additional Platform Windows
         // (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
         //  For this specific demo app we could also call glfwMakeContextCurrent(window) directly)
@@ -255,23 +287,12 @@ int main(int, char**)
             glfwMakeContextCurrent(backup_current_context);
         }
 
-        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-        shader.setMat4("projection", projection);
+        sampleObject->getTransform()->position = Vector3(pos_x, pos_y, pos_z);
+        sampleObject->getTransform()->rotation = Quaternion(rot_x, rot_y, rot_z);
+        sampleObject->getTransform()->scale = Vector3(scale_x, scale_y, scale_z);
 
-        glm::mat4 view = camera.GetViewMatrix();
-        shader.setMat4("view", view);
-
-        angle_x += speed_x * deltaTime;
-        angle_y += speed_y * deltaTime;
-
-        glm::mat4 model{ 1.f };
-        model = glm::rotate(model, angle_x, glm::vec3(1.0f, 0.0f, 0.0f));
-        model = glm::rotate(model, angle_y, glm::vec3(0.0f, 1.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-        shader.setMat4("model", model);
-
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        renderer->render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         glfwSwapBuffers(window);
     }
@@ -285,4 +306,4 @@ int main(int, char**)
     glfwTerminate();
 
     return 0;
-}
+}*/

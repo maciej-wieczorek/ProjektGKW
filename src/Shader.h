@@ -99,6 +99,12 @@ public:
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(value));
     }
 
+    void setVertexAttrib(const std::string& name, float* value) {
+        GLuint loc = glGetAttribLocation(ID, name.c_str());
+        glVertexAttribPointer(loc, 4, GL_FLOAT, false, 0, value);
+        glEnableVertexAttribArray(loc);
+    }
+
 private:
     // utility function for checking shader compilation/linking errors.
     // ------------------------------------------------------------------------
