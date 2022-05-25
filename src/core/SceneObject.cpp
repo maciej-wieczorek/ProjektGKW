@@ -40,6 +40,11 @@ Mesh* SceneObject::getMesh()
 	return mesh;
 }
 
+void SceneObject::setMesh(Mesh* mesh)
+{
+	this->mesh = mesh;
+}
+
 Material* SceneObject::getMaterial()
 {
 	return material;
