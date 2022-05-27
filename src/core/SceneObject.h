@@ -21,6 +21,7 @@ public:
 	std::string getName();
 	Transform* getTransform();
 	Mesh* getMesh();
+	void setMesh(Mesh* mesh);
 	Material* getMaterial();
 
 	void Update();

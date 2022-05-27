@@ -28,12 +28,6 @@ void CameraRenderer::render()
     SceneObject* object;
     while (!renderStack.empty()) {
         object = renderStack.top();
-        std::cout << "object: " << object->getName() << ", parent: ";
-        if (object->getTransform()->getParent() != NULL)
-            std::cout << object->getTransform()->getParent()->getSceneObject()->getName();
-        else
-            std::cout << "NULL";
-        std::cout << std::endl;
         renderStack.pop();
         for (auto& child : *(object->getTransform()->getChildren())) {
             renderStack.push(child->getSceneObject());

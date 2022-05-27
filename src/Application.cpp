@@ -6,7 +6,10 @@
 
 #include "ApplicationWindow.h";
 #include "ImGuiHandler.h"
-
+#include "GUI/TransformEditorWindow.h"
+#include "Camera.h"
+#include "CameraRenderer.h"
+#include "Scene.h"
 
 const char* GLSL_VERSION = "#version 330";
 
@@ -26,17 +29,28 @@ int main() {
 
     ImGuiHandler::setContext(mainWindow.getWindow(), GLSL_VERSION);
 
+
+    Scene scene;
+    SceneObject cubeObj("cube1");
+    //cubeObj.setMesh(Mesh::cube);
+    cubeObj.getMesh()->vertices = Cube::vertices;
+    cubeObj.getMesh()->verticesCount = Cube::verticesCount;
+    scene.setRootObject(&cubeObj);
+    Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+    CameraRenderer cameraRenderer(mainWindow.getWindow(), &camera, &scene);
+
+    float value = 1;
+    TransformEditorWindow transformEditorWindow = TransformEditorWindow("Transform", &cubeObj.getTransform()->position);
+
     while (!mainWindow.shouldClose()) {
         mainWindow.beginFrame();
         ImGuiHandler::startFrame();
 
-        ImGui::Begin("Hello, world!");
-        ImGui::Text("This is some useful text.");
-        ImGui::End();
+        transformEditorWindow.draw();
 
         ImGuiHandler::render();
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        cameraRenderer.render();
 
         ImGuiHandler::endFrame();
         mainWindow.endFrame();
