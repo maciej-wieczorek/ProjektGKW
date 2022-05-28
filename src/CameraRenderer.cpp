@@ -55,7 +55,7 @@ void CameraRenderer::renderObject(const glm::mat4& V, const glm::mat4& P, SceneO
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
 
-<<<<<<< HEAD
+
     /*glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * object->getMesh()->verticesCount * 4, &(object->getMesh()->colors[0]), GL_STATIC_DRAW);
 
@@ -77,16 +77,6 @@ void CameraRenderer::renderObject(const glm::mat4& V, const glm::mat4& P, SceneO
     shader.setMat4("P", P); //TODO: change to work with pointer (glm::f32*)
     shader.setMat4("V", V);
     shader.setMat4("M", M);
-=======
-    glm::mat4 M = object->getTransform()->getMatrix();
-
-    Shader shader(ROOT_DIR "res/shaders/shader.vert", ROOT_DIR "res/shaders/shader.frag"); //TODO: get shader from object
-    shader.use();
-
-    shader.setMat4("projection", P); //TODO: change to work with pointer (glm::f32*)
-    shader.setMat4("view", V);
-    shader.setMat4("model", M);
->>>>>>> a39863a68c234c5169d600e9aaee9b29355dddb8
 
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, object->getMesh()->verticesCount);

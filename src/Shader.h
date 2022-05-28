@@ -3,6 +3,9 @@
 #include <string>
 #include <glm.hpp>
 
+#include <glad/glad.h>
+
+
 class Shader
 {
 public:
