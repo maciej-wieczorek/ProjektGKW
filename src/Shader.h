@@ -105,6 +105,11 @@ public:
         glEnableVertexAttribArray(loc);
     }
 
+    void disableVertexAttrib(const std::string& name) {
+        GLuint loc = glGetAttribLocation(ID, name.c_str());
+        glDisableVertexAttribArray(loc);
+    }
+
 private:
     // utility function for checking shader compilation/linking errors.
     // ------------------------------------------------------------------------

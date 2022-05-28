@@ -12,8 +12,9 @@ public:
 	Mesh();
 
 	std::vector<float> vertices;
-	float* normals;
-	float* texCoords;
+	std::vector<float> normals;
+	std::vector<float> colors;
+	std::vector<float> texCoords;
 	int verticesCount;
 	bool castShadows;
 };

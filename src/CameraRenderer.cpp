@@ -7,7 +7,9 @@ CameraRenderer::CameraRenderer(GLFWwindow* window, Camera* camera, Scene* scene)
     this->scene = scene;
 
     glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
+    glGenBuffers(3, &VBO[0]);
+
+    glEnable(GL_DEPTH_TEST);
 }
 
 void CameraRenderer::render()
@@ -42,24 +44,44 @@ void CameraRenderer::render()
 
 void CameraRenderer::renderObject(const glm::mat4 &V, const glm::mat4 &P, SceneObject* object)
 {
+    //Shader shader(ROOT_DIR "res/shaders/shader.vert", ROOT_DIR "res/shaders/shader.frag"); //TODO: get shader from object
+    Shader shader(ROOT_DIR "res/shaders/v_lambert.glsl", ROOT_DIR "res/shaders/f_lambert.glsl"); //TODO: get shader from object
+    shader.use();
+
     glBindVertexArray(VAO);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * object->getMesh()->verticesCount * 4, &(object->getMesh()->vertices[0]), GL_STATIC_DRAW);
 
-    // position attribute
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+
+    /*glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * object->getMesh()->verticesCount * 4, &(object->getMesh()->colors[0]), GL_STATIC_DRAW);
+
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(1);*/
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[2]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * object->getMesh()->verticesCount * 4, &(object->getMesh()->normals[0]), GL_STATIC_DRAW);
+
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
 
 	glm::mat4 M = object->getTransform()->getMatrix();
 
-	Shader shader(ROOT_DIR "res/shaders/shader.vert", ROOT_DIR "res/shaders/shader.frag"); //TODO: get shader from object
-	shader.use();
-
-	shader.setMat4("projection", P); //TODO: change to work with pointer (glm::f32*)
+	/*shader.setMat4("projection", P); //TODO: change to work with pointer (glm::f32*)
 	shader.setMat4("view", V);
-	shader.setMat4("model", M);
+	shader.setMat4("model", M);*/
+
+    shader.setMat4("P", P); //TODO: change to work with pointer (glm::f32*)
+    shader.setMat4("V", V);
+    shader.setMat4("M", M);
 
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, object->getMesh()->verticesCount);
+
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
 }

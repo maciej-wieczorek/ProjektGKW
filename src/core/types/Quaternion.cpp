@@ -21,5 +21,11 @@ glm::mat4 Quaternion::getRotationMatrix() {
 }
 
 void Quaternion::setEuler(float x, float y, float z) {
-	q = glm::quat(glm::vec3(x, y, z));
+	q = glm::quat(glm::vec3(glm::radians(x), glm::radians(y), glm::radians(z)));
+}
+
+Vector3 Quaternion::getEuler()
+{
+	glm::vec3 euler = glm::eulerAngles(q);
+	return Vector3(glm::degrees(euler.x), glm::degrees(euler.y), glm::degrees(euler.z));
 }

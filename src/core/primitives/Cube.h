@@ -5,5 +5,7 @@
 class Cube {
 public:
 	static std::vector<float> vertices;
-    static int verticesCount;
+	static std::vector<float> normals;
+	static std::vector<float> colors;
+	static int verticesCount;
 };

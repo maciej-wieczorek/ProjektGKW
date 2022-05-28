@@ -34,13 +34,15 @@ int main() {
     SceneObject cubeObj("cube1");
     //cubeObj.setMesh(Mesh::cube);
     cubeObj.getMesh()->vertices = Cube::vertices;
+    cubeObj.getMesh()->normals = Cube::normals;
+    cubeObj.getMesh()->colors = Cube::colors;
     cubeObj.getMesh()->verticesCount = Cube::verticesCount;
     scene.setRootObject(&cubeObj);
     Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
     CameraRenderer cameraRenderer(mainWindow.getWindow(), &camera, &scene);
 
     float value = 1;
-    TransformEditorWindow transformEditorWindow = TransformEditorWindow("Transform", &cubeObj.getTransform()->position);
+    TransformEditorWindow transformEditorWindow = TransformEditorWindow("Transform", cubeObj.getTransform());
 
     while (!mainWindow.shouldClose()) {
         mainWindow.beginFrame();

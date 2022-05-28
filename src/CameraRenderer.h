@@ -24,7 +24,8 @@ private:
 	Camera* camera;
 	Scene* scene; //tmp, move to Camera
 
-	unsigned int VBO, VAO;
+	unsigned int VBO[3];
+	unsigned int VAO;
 
 	void renderObject(const glm::mat4 &M, const glm::mat4 &P, SceneObject* object);
 };
