@@ -1,6 +1,6 @@
 #include "ImGuiHandler.h"
 
-ImGuiIO& ImGuiHandler::io = ImGuiIO();
+ImGuiIO ImGuiHandler::io = ImGuiIO();
 
 void ImGuiHandler::init() {
     // Setup Dear ImGui context

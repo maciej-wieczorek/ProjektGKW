@@ -17,5 +17,5 @@ public:
 	static void close();
 
 private:
-	static ImGuiIO& io;
+	static ImGuiIO io;
 };
