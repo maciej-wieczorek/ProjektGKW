@@ -8,6 +8,7 @@ class Mesh {
 public:
 	static Mesh* cube;
 
+	Mesh(std::vector<float>& vertices, std::vector<float>& normals, std::vector<float>& colors, int verticesCount);
 	Mesh(std::vector<float>& vertices, int verticesCount);
 	Mesh();
 

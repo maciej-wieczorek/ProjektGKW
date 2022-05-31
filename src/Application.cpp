@@ -32,11 +32,7 @@ int main() {
 
     Scene scene;
     SceneObject cubeObj("cube1");
-    //cubeObj.setMesh(Mesh::cube);
-    cubeObj.getMesh()->vertices = Cube::vertices;
-    cubeObj.getMesh()->normals = Cube::normals;
-    cubeObj.getMesh()->colors = Cube::colors;
-    cubeObj.getMesh()->verticesCount = Cube::verticesCount;
+    cubeObj.mesh = new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount);
     scene.setRootObject(&cubeObj);
     Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
     CameraRenderer cameraRenderer(mainWindow.getWindow(), &camera, &scene);

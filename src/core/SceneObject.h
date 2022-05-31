@@ -12,6 +12,10 @@ class Transform;
 
 class SceneObject {
 public:
+	Mesh* mesh;
+	Transform* transform;
+	Material* material;
+
 	SceneObject(std::string name, SceneObject* parent);
 	SceneObject(std::string name);
 	SceneObject();
@@ -28,8 +32,5 @@ public:
 private:
 	unsigned int id;
 	std::string name;
-	Transform* transform;
 	std::forward_list<ComponentScript*> components;
-	Mesh* mesh;
-	Material* material;
 };
