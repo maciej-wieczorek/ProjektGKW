@@ -7,9 +7,11 @@
 #include "ApplicationWindow.h";
 #include "ImGuiHandler.h"
 #include "GUI/TransformEditorWindow.h"
+#include "GUI/HierarchyEditorWindow.h"
 #include "Camera.h"
 #include "CameraRenderer.h"
 #include "Scene.h"
+
 
 const char* GLSL_VERSION = "#version 330";
 
@@ -34,16 +36,31 @@ int main() {
     SceneObject cubeObj("cube1");
     cubeObj.mesh = new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount);
     scene.setRootObject(&cubeObj);
-    Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+
+    SceneObject cube2("cube2", &cubeObj);
+    cube2.mesh = new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount);
+    SceneObject cube3("cube3", &cubeObj);
+    cube3.mesh = new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount);
+    SceneObject cube4("cube4", &cubeObj);
+    cube4.mesh = new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount);
+    SceneObject cube5("cube5", &cube3);
+    cube5.mesh = new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount);
+    SceneObject cube6("cube6", &cube3);
+    cube6.mesh = new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount);
+
+    Camera camera(glm::vec3(0.0f, 0.0f, 10.0f));
     CameraRenderer cameraRenderer(mainWindow.getWindow(), &camera, &scene);
 
     float value = 1;
+    HierarchyEditorWindow hierarchyEditorWindow = HierarchyEditorWindow("Hierarchy", scene.getRootObject()->transform);
     TransformEditorWindow transformEditorWindow = TransformEditorWindow("Transform", cubeObj.getTransform());
 
     while (!mainWindow.shouldClose()) {
         mainWindow.beginFrame();
         ImGuiHandler::startFrame();
 
+        hierarchyEditorWindow.draw();
+        transformEditorWindow.bindTransform(hierarchyEditorWindow.getSelected());
         transformEditorWindow.draw();
 
         ImGuiHandler::render();
