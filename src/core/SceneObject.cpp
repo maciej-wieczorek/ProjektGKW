@@ -1,5 +1,11 @@
 #include "SceneObject.h"
 
+unsigned int SceneObject::nextId = 0;
+
+unsigned int SceneObject::getNextId() {
+	return nextId++;
+}
+
 SceneObject::SceneObject(std::string name, SceneObject* parent)
 {
 	this->name = name;
@@ -9,6 +15,8 @@ SceneObject::SceneObject(std::string name, SceneObject* parent)
 	}
 	this->transform = new Transform(this, parentTransform);
 	this->mesh = new Mesh();
+
+	this->id = SceneObject::getNextId();
 }
 
 SceneObject::SceneObject(std::string name) : SceneObject(name, NULL)

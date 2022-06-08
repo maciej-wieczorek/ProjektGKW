@@ -41,22 +41,29 @@ Transform* HierarchyEditorWindow::drawHierarchy(Transform* transform)
 {
     if (transform != NULL)
     {
-        if (ImGui::TreeNodeEx(transform->getSceneObject()->getName().c_str()))
+        Transform* toReturn = NULL;
+        
+        std::string treeLabel = transform->getSceneObject()->getName();
+        treeLabel += "##" + transform->getSceneObject()->getId();
+        std::string buttonLabel = "Select##";
+        buttonLabel += transform->getSceneObject()->getId();
+
+        bool open = ImGui::TreeNode(transform->getSceneObject()->getName().c_str());
+        ImGui::SameLine();
+        if (ImGui::SmallButton(buttonLabel.c_str())) {
+            toReturn = transform;
+        }
+        if (open)
         {
-            ImGui::SameLine();
-            if (ImGui::SmallButton("Select")) {
-                ImGui::TreePop();
-                return transform;
-            }
             for (int i = 0; i < transform->getChildrenCount(); ++i) {
                 Transform* selectedChild = drawHierarchy(transform->getChild(i));
                 if (selectedChild != NULL) {
-                    ImGui::TreePop();
-                    return selectedChild;
+                    toReturn = selectedChild;
                 }
             }
             ImGui::TreePop();
         }
+        return toReturn;
     }
     return NULL;
 }

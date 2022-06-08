@@ -12,6 +12,8 @@ class Transform;
 
 class SceneObject {
 public:
+	static unsigned int getNextId();
+
 	Mesh* mesh;
 	Transform* transform;
 	Material* material;
@@ -30,6 +32,8 @@ public:
 
 	void Update();
 private:
+	static unsigned int nextId;
+
 	unsigned int id;
 	std::string name;
 	std::forward_list<ComponentScript*> components;
