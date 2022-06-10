@@ -14,13 +14,13 @@ class SceneObject {
 public:
 	static unsigned int getNextId();
 
-	Mesh* mesh;
 	Transform* transform;
 	Material* material;
 
 	unsigned int VBO[2]; //[vertices, normals]
 	unsigned int VAO;
 
+	SceneObject(std::string name, SceneObject* parent, Mesh* mesh, Material* material);
 	SceneObject(std::string name, SceneObject* parent);
 	SceneObject(std::string name);
 	SceneObject();
@@ -40,6 +40,7 @@ private:
 	unsigned int id;
 	std::string name;
 	std::forward_list<ComponentScript*> components;
+	Mesh* mesh;
 
 	void SetBuffers();
 };

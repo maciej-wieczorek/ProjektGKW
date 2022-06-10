@@ -6,7 +6,7 @@ unsigned int SceneObject::getNextId() {
 	return nextId++;
 }
 
-SceneObject::SceneObject(std::string name, SceneObject* parent)
+SceneObject::SceneObject(std::string name, SceneObject* parent, Mesh* mesh, Material* material)
 {
 	this->name = name;
 	Transform* parentTransform = NULL;
@@ -14,13 +14,20 @@ SceneObject::SceneObject(std::string name, SceneObject* parent)
 		parentTransform = parent->getTransform();
 	}
 	this->transform = new Transform(this, parentTransform);
-	this->mesh = new Mesh();
-	this->material = new Material(Shader::lambert);
+	this->mesh = mesh;
+	this->material = material;
 
 	this->id = SceneObject::getNextId();
 
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(2, &VBO[0]);
+
+	SetBuffers();
+}
+
+SceneObject::SceneObject(std::string name, SceneObject* parent) : SceneObject(name, parent, NULL, NULL)
+{
+	
 }
 
 SceneObject::SceneObject(std::string name) : SceneObject(name, NULL)
@@ -72,6 +79,10 @@ void SceneObject::Update()
 
 void SceneObject::SetBuffers()
 {
+	if (mesh == NULL) {
+		return;
+	}
+
 	glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->verticesCount * 4, &(mesh->vertices[0]), GL_STATIC_DRAW);
 

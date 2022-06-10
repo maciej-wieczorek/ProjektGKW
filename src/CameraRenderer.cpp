@@ -37,6 +37,10 @@ void CameraRenderer::render()
 
 void CameraRenderer::renderObject(const glm::mat4& V, const glm::mat4& P, SceneObject* object)
 {  
+    if (object->getMesh() == NULL || object->material == NULL) {
+        return;
+    }
+
     Shader* shader = object->material->shader;
 
     shader->use();
