@@ -6,7 +6,8 @@ class SceneObject;
 
 class ComponentScript {
 public:
+	void setObject(SceneObject* object);
 	virtual void Update() = 0;
-private:
+protected:
 	SceneObject* sceneObject;
 };

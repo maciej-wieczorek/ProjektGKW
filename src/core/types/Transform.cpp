@@ -86,3 +86,8 @@ glm::mat4 Transform::getMatrix()
 bool Transform::isDirty() {
 	return dirty;
 }
+
+void Transform::move(Vector3 movement)
+{
+	position = position + movement;
+}

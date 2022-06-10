@@ -12,6 +12,7 @@
 #include "CameraRenderer.h"
 #include "Scene.h"
 #include "Shader.h"
+#include "Components/RotatorComponent.h"
 
 
 const char* GLSL_VERSION = "#version 330";
@@ -48,6 +49,9 @@ int main() {
 
     SceneObject teapot1("teapot", &cube5, Mesh::teapot, new Material(Shader::lambert));
 
+    ComponentScript* rotator = (ComponentScript*)(new RotatorComponent());
+    cube5.addComponent(rotator);
+
     Camera camera(glm::vec3(0.0f, 0.0f, 10.0f));
     CameraRenderer cameraRenderer(mainWindow.getWindow(), &camera, &scene);
 
@@ -56,6 +60,11 @@ int main() {
     TransformEditorWindow transformEditorWindow = TransformEditorWindow("Transform", cubeObj.getTransform());
 
     while (!mainWindow.shouldClose()) {
+        //UPDATE
+
+        scene.Update();
+
+        //RENDER
         mainWindow.beginFrame();
         ImGuiHandler::startFrame();
 
@@ -75,4 +84,8 @@ int main() {
     mainWindow.close();
 
     return 0;
+}
+
+void init() {
+
 }

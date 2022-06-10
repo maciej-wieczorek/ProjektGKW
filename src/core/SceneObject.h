@@ -9,6 +9,7 @@
 #include "Material.h"
 
 class Transform;
+class ComponentScript;
 
 class SceneObject {
 public:
@@ -32,6 +33,8 @@ public:
 	Mesh* getMesh();
 	void setMesh(Mesh* mesh);
 	Material* getMaterial();
+
+	void addComponent(ComponentScript* component);
 
 	void Update();
 private:

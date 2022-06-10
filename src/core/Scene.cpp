@@ -25,7 +25,18 @@ void Scene::setRootObject(SceneObject* root)
 
 void Scene::Update()
 {
-	sceneRoot->Update();
+    std::stack<SceneObject*> updateStack;
+    updateStack.push(getRootObject());
+
+    SceneObject* object;
+    while (!updateStack.empty()) {
+        object = updateStack.top();
+        updateStack.pop();
+        for (auto& child : *(object->getTransform()->getChildren())) {
+            updateStack.push(child->getSceneObject());
+        }
+        object->Update();
+    }
 }
 
 unsigned int Scene::getNextId() {

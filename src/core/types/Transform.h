@@ -22,6 +22,7 @@ public:
 
 	Transform * getParent();
 	void setParent(Transform* parent);
+
 	std::vector<Transform*>* getChildren();
 	int getChildrenCount();
 	Transform* getChild(int index);
@@ -29,6 +30,8 @@ public:
 
 	glm::mat4 getMatrix();
 	bool isDirty();
+
+	void move(Vector3 movement);
 private:
 	SceneObject * sceneObject;
 

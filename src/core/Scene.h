@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <stack>
 
 #include "SceneObject.h"
 #include "types/Color.h"

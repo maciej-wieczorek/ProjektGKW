@@ -70,6 +70,12 @@ Material* SceneObject::getMaterial()
 	return material;
 }
 
+void SceneObject::addComponent(ComponentScript* component)
+{
+	component->setObject(this);
+	components.push_front(component);
+}
+
 void SceneObject::Update()
 {
 	for (auto const& i : components) {

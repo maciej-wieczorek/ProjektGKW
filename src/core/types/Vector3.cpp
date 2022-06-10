@@ -31,3 +31,8 @@ glm::vec3 Vector3::toVec3()
 {
 	return glm::vec3(x, y, z);
 }
+
+Vector3 Vector3::operator+(const Vector3& other)
+{
+	return Vector3(x + other.x, y + other.y, z + other.z);
+}

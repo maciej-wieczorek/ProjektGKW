@@ -38,9 +38,9 @@ public:
 
 
 	bool operator==(const Vector3& other);
-	bool operator!=(const Vector3& other);
+	bool operator!=(const Vector3& other);*/
 	Vector3 operator+(const Vector3& other);
-	Vector3 operator-(const Vector3& other);
+	/*Vector3 operator-(const Vector3& other);
 	Vector3 operator*(const float f);
 	Vector3 operator/(const float f);*/
 };
