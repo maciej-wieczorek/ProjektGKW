@@ -89,5 +89,5 @@ bool Transform::isDirty() {
 
 void Transform::move(Vector3 movement)
 {
-	position = position + movement;
+	position += movement;
 }

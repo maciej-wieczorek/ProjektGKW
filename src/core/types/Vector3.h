@@ -1,6 +1,6 @@
-//TODO: use glm::vec3 internally
-
 #pragma once
+
+#include <cmath>
 
 #include <glm/glm.hpp>
 
@@ -24,23 +24,23 @@ public:
 
 	glm::vec3 toVec3();
 
-	/*Vector3 normalized();
+	Vector3 normalized();
 	float magnitude();
 	float sqrMagnitude();
 	bool strictEqual(const Vector3& other);
 	bool approxEqual(const Vector3& other);
-	Vector3 add(const Vector3& other);
-	Vector3 subtract(const Vector3& other);
-	Vector3 scale(const float f);
-	Vector3 scale(const Vector3& other);
 	float dot(const Vector3& other);
 	Vector3 cross(const Vector3& other);
 
 
 	bool operator==(const Vector3& other);
-	bool operator!=(const Vector3& other);*/
+	bool operator!=(const Vector3& other);
 	Vector3 operator+(const Vector3& other);
-	/*Vector3 operator-(const Vector3& other);
+	Vector3 operator-(const Vector3& other);
 	Vector3 operator*(const float f);
-	Vector3 operator/(const float f);*/
+	Vector3 operator/(const float f);
+	Vector3& operator+=(const Vector3& other);
+	Vector3& operator-=(const Vector3& other);
+	Vector3& operator*=(const float f);
+	Vector3& operator/=(const float f);
 };

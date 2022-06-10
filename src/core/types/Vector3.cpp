@@ -15,15 +15,15 @@ Vector3::Vector3(float x, float y, float z) {
 	this->z = z;
 }
 
-Vector3::Vector3(const Vector3& other)
+Vector3::Vector3(const Vector3& other) : Vector3(other.x, other.y, other.z)
 {
 }
 
-Vector3::Vector3(const glm::vec3& other)
+Vector3::Vector3(const glm::vec3& other) : Vector3(other.x, other.y, other.z)
 {
 }
 
-Vector3::Vector3()
+Vector3::Vector3() : Vector3(0, 0, 0)
 {
 }
 
@@ -32,7 +32,101 @@ glm::vec3 Vector3::toVec3()
 	return glm::vec3(x, y, z);
 }
 
+Vector3 Vector3::normalized()
+{
+	return (*this)/magnitude();
+}
+
+float Vector3::magnitude()
+{
+	return sqrt(sqrMagnitude());
+}
+
+float Vector3::sqrMagnitude()
+{
+	return x*x + y*y + z*z;
+}
+
+bool Vector3::strictEqual(const Vector3& other)
+{
+	return (x == other.x && y == other.y && z == other.z);
+}
+
+bool Vector3::approxEqual(const Vector3& other)
+{
+	return (*this-other).magnitude() < 0.00001;
+}
+
+float Vector3::dot(const Vector3& other)
+{
+	return x * other.x + y * other.y + z * other.z;
+}
+
+Vector3 Vector3::cross(const Vector3& other)
+{
+	return Vector3(y * other.z - z * other.y, z * other.x  - x * other.z, x * other.y - y * other.x);
+}
+
+bool Vector3::operator==(const Vector3& other)
+{
+	return strictEqual(other);
+}
+
+bool Vector3::operator!=(const Vector3& other)
+{
+	return !strictEqual(other);
+}
+
 Vector3 Vector3::operator+(const Vector3& other)
 {
 	return Vector3(x + other.x, y + other.y, z + other.z);
+}
+
+Vector3 Vector3::operator-(const Vector3& other)
+{
+	return Vector3(x - other.x, y - other.y, z - other.z);
+}
+
+Vector3 Vector3::operator*(const float f)
+{
+	return Vector3(x * f, y * f, z * f);
+}
+
+
+Vector3 Vector3::operator/(const float f)
+{
+	return Vector3(x / f, y / f, z / f);
+}
+
+Vector3& Vector3::operator+=(const Vector3& other)
+{
+	x += other.x;
+	y += other.y;
+	z += other.z;
+	return *this;
+}
+
+Vector3& Vector3::operator-=(const Vector3& other)
+{
+	x -= other.x;
+	y -= other.y;
+	z -= other.z;
+	return *this;
+}
+
+Vector3& Vector3::operator*=(const float f)
+{
+	x *= f;
+	y *= f;
+	z *= f;
+	return *this;
+}
+
+
+Vector3& Vector3::operator/=(const float f)
+{
+	x /= f;
+	y /= f;
+	z /= f;
+	return *this;
 }
