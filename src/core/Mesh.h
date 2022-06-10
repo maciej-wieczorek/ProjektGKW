@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "primitives/Cube.h"
+#include "primitives/Teapot.h"
 
 class Mesh {
 public:

@@ -5,10 +5,16 @@
 
 #include <glad/glad.h>
 
+#include "helpers/RootDir.h"
+
 
 class Shader
 {
 public:
+    static Shader* lambert;
+    static Shader* pink;
+    static void Shader::initShaders();
+
     Shader(const char* vertexPath, const char* fragmentPath);
 
     void use();

@@ -11,6 +11,7 @@
 #include "Camera.h"
 #include "CameraRenderer.h"
 #include "Scene.h"
+#include "Shader.h"
 
 
 const char* GLSL_VERSION = "#version 330";
@@ -31,22 +32,26 @@ int main() {
 
     ImGuiHandler::setContext(mainWindow.getWindow(), GLSL_VERSION);
 
+    Shader::initShaders();
 
     Scene scene;
     SceneObject cubeObj("cube1");
-    cubeObj.mesh = new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount);
+    cubeObj.setMesh(new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount));
     scene.setRootObject(&cubeObj);
 
     SceneObject cube2("cube2", &cubeObj);
-    cube2.mesh = new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount);
+    cube2.setMesh(new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount));
     SceneObject cube3("cube3", &cubeObj);
-    cube3.mesh = new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount);
+    cube3.setMesh(new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount));
     SceneObject cube4("cube4", &cubeObj);
-    cube4.mesh = new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount);
+    cube4.setMesh(new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount));
     SceneObject cube5("cube5", &cube3);
-    cube5.mesh = new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount);
+    cube5.setMesh(new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount));
     SceneObject cube6("cube6", &cube3);
-    cube6.mesh = new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount);
+    cube6.setMesh(new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount));
+
+    SceneObject teapot1("teapot", &cube5);
+    teapot1.setMesh(new Mesh(Teapot::vertices, Teapot::normals, Teapot::colors, Teapot::verticesCount));
 
     Camera camera(glm::vec3(0.0f, 0.0f, 10.0f));
     CameraRenderer cameraRenderer(mainWindow.getWindow(), &camera, &scene);

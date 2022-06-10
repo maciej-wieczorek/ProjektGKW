@@ -8,6 +8,14 @@
 #include <sstream>
 #include <iostream>
 
+Shader* Shader::lambert = NULL;
+Shader* Shader::pink = NULL;
+
+void Shader::initShaders() {
+    Shader::lambert = new Shader(ROOT_DIR "res/shaders/v_lambert.glsl", ROOT_DIR "res/shaders/f_lambert.glsl");
+    Shader::pink = new Shader(ROOT_DIR "res/shaders/shader.vert", ROOT_DIR "res/shaders/shader.frag");
+}
+
 Shader::Shader(const char* vertexPath, const char* fragmentPath)
 {
     // 1. retrieve the vertex/fragment source code from filePath
