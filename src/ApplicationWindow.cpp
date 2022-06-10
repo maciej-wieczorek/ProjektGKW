@@ -19,6 +19,7 @@ ApplicationWindow::ApplicationWindow(int width, int height, std::string title)
 
 ApplicationWindow::ApplicationWindow(int width, int height) : ApplicationWindow(width, height, "Application")
 {
+    
 }
 
 ApplicationWindow::ApplicationWindow() : ApplicationWindow(800, 600)
@@ -44,6 +45,11 @@ void ApplicationWindow::getSize(int& width, int& height)
 bool ApplicationWindow::shouldClose()
 {
     return glfwWindowShouldClose(window);
+}
+
+void ApplicationWindow::setTitle(std::string title)
+{
+    glfwSetWindowTitle(window, title.c_str());
 }
 
 void ApplicationWindow::beginFrame()

@@ -32,68 +32,68 @@ glm::vec3 Vector3::toVec3()
 	return glm::vec3(x, y, z);
 }
 
-Vector3 Vector3::normalized()
+Vector3 Vector3::normalized() const
 {
 	return (*this)/magnitude();
 }
 
-float Vector3::magnitude()
+float Vector3::magnitude() const
 {
 	return sqrt(sqrMagnitude());
 }
 
-float Vector3::sqrMagnitude()
+float Vector3::sqrMagnitude() const
 {
 	return x*x + y*y + z*z;
 }
 
-bool Vector3::strictEqual(const Vector3& other)
+bool Vector3::strictEqual(const Vector3& other) const
 {
 	return (x == other.x && y == other.y && z == other.z);
 }
 
-bool Vector3::approxEqual(const Vector3& other)
+bool Vector3::approxEqual(const Vector3& other) const
 {
 	return (*this-other).magnitude() < 0.00001;
 }
 
-float Vector3::dot(const Vector3& other)
+float Vector3::dot(const Vector3& other) const
 {
 	return x * other.x + y * other.y + z * other.z;
 }
 
-Vector3 Vector3::cross(const Vector3& other)
+Vector3 Vector3::cross(const Vector3& other) const
 {
 	return Vector3(y * other.z - z * other.y, z * other.x  - x * other.z, x * other.y - y * other.x);
 }
 
-bool Vector3::operator==(const Vector3& other)
+bool Vector3::operator==(const Vector3& other) const
 {
 	return strictEqual(other);
 }
 
-bool Vector3::operator!=(const Vector3& other)
+bool Vector3::operator!=(const Vector3& other) const
 {
 	return !strictEqual(other);
 }
 
-Vector3 Vector3::operator+(const Vector3& other)
+Vector3 Vector3::operator+(const Vector3& other) const
 {
 	return Vector3(x + other.x, y + other.y, z + other.z);
 }
 
-Vector3 Vector3::operator-(const Vector3& other)
+Vector3 Vector3::operator-(const Vector3& other) const
 {
 	return Vector3(x - other.x, y - other.y, z - other.z);
 }
 
-Vector3 Vector3::operator*(const float f)
+Vector3 Vector3::operator*(const float f) const
 {
 	return Vector3(x * f, y * f, z * f);
 }
 
 
-Vector3 Vector3::operator/(const float f)
+Vector3 Vector3::operator/(const float f) const
 {
 	return Vector3(x / f, y / f, z / f);
 }

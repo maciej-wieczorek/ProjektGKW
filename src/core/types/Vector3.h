@@ -24,21 +24,21 @@ public:
 
 	glm::vec3 toVec3();
 
-	Vector3 normalized();
-	float magnitude();
-	float sqrMagnitude();
-	bool strictEqual(const Vector3& other);
-	bool approxEqual(const Vector3& other);
-	float dot(const Vector3& other);
-	Vector3 cross(const Vector3& other);
+	Vector3 normalized() const;
+	float magnitude() const;
+	float sqrMagnitude() const;
+	bool strictEqual(const Vector3& other) const;
+	bool approxEqual(const Vector3& other) const;
+	float dot(const Vector3& other) const;
+	Vector3 cross(const Vector3& other) const;
 
 
-	bool operator==(const Vector3& other);
-	bool operator!=(const Vector3& other);
-	Vector3 operator+(const Vector3& other);
-	Vector3 operator-(const Vector3& other);
-	Vector3 operator*(const float f);
-	Vector3 operator/(const float f);
+	bool operator==(const Vector3& other) const;
+	bool operator!=(const Vector3& other) const;
+	Vector3 operator+(const Vector3& other) const;
+	Vector3 operator-(const Vector3& other) const;
+	Vector3 operator*(const float f) const;
+	Vector3 operator/(const float f) const;
 	Vector3& operator+=(const Vector3& other);
 	Vector3& operator-=(const Vector3& other);
 	Vector3& operator*=(const float f);

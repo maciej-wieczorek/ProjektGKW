@@ -13,6 +13,7 @@
 #include "Scene.h"
 #include "Shader.h"
 #include "Components/RotatorComponent.h"
+#include "core/FrameStats.h"
 
 
 const char* GLSL_VERSION = "#version 330";
@@ -60,11 +61,17 @@ int main() {
     TransformEditorWindow transformEditorWindow = TransformEditorWindow("Transform", cubeObj.getTransform());
 
     while (!mainWindow.shouldClose()) {
+        //PRE-UPDATE
+
+        FrameStats::registerFrame();
+
         //UPDATE
 
         scene.Update();
+        mainWindow.setTitle("Projekt GKW    FPS: " + std::to_string(FrameStats::getCurrentFrameRate()));
 
         //RENDER
+
         mainWindow.beginFrame();
         ImGuiHandler::startFrame();
 

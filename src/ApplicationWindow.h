@@ -17,6 +17,8 @@ public:
 	void getSize(int& width, int& height);
 	bool shouldClose();
 
+	void setTitle(std::string title);
+
 	void beginFrame();
 	void endFrame();
 	void close();

@@ -2,5 +2,5 @@
 
 void RotatorComponent::Update()
 {
-	sceneObject->transform->move(Vector3(0.001, 0, 0));
+	sceneObject->transform->move(Vector3::right * FrameStats::getDeltaTime());
 }
