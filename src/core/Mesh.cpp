@@ -15,14 +15,21 @@ Mesh::Mesh(std::vector<float>& vertices, std::vector<float>& normals, std::vecto
 	this->normals = normals;
 	this->colors = colors;
 	this->verticesCount = verticesCount;
+
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(3, &VBO[0]);
+
+	SetBuffers();
 }
 
-Mesh::Mesh(std::vector<float>& vertices, int verticesCount)
+void Mesh::SetBuffers()
 {
-	this->vertices = vertices;
-	this->verticesCount = verticesCount;
-}
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * verticesCount * 4, &(vertices[0]), GL_STATIC_DRAW);
 
-Mesh::Mesh()
-{
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * verticesCount * 4, &(normals[0]), GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[2]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * verticesCount * 4, &(colors[0]), GL_STATIC_DRAW);
 }

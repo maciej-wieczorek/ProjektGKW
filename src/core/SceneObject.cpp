@@ -18,11 +18,6 @@ SceneObject::SceneObject(std::string name, SceneObject* parent, Mesh* mesh, Mate
 	this->material = material;
 
 	this->id = SceneObject::getNextId();
-
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(2, &VBO[0]);
-
-	SetBuffers();
 }
 
 SceneObject::SceneObject(std::string name, SceneObject* parent) : SceneObject(name, parent, NULL, NULL)
@@ -62,7 +57,6 @@ Mesh* SceneObject::getMesh()
 void SceneObject::setMesh(Mesh* mesh)
 {
 	this->mesh = mesh;
-	SetBuffers();
 }
 
 Material* SceneObject::getMaterial()
@@ -81,17 +75,4 @@ void SceneObject::Update()
 	for (auto const& i : components) {
 		i->Update();
 	}
-}
-
-void SceneObject::SetBuffers()
-{
-	if (mesh == NULL) {
-		return;
-	}
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->verticesCount * 4, &(mesh->vertices[0]), GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->verticesCount * 4, &(mesh->normals[0]), GL_STATIC_DRAW);
 }

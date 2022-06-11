@@ -14,6 +14,8 @@
 #include "Shader.h"
 #include "Components/RotatorComponent.h"
 #include "core/FrameStats.h"
+#include "core/Materials/ColoredMaterial.h"
+#include "types/Color.h"
 
 
 const char* GLSL_VERSION = "#version 330";
@@ -42,16 +44,16 @@ int main() {
     cubeObj.setMesh(new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount));
     scene.setRootObject(&cubeObj);
 
-    SceneObject cube2("cube2", &cubeObj, Mesh::cube, new Material(Shader::lambert));
-    SceneObject cube3("cube3", &cubeObj, Mesh::cube, new Material(Shader::lambert));
-    SceneObject cube4("cube4", &cubeObj, Mesh::cube, new Material(Shader::lambert));
-    SceneObject cube5("cube5", &cube3, Mesh::cube, new Material(Shader::lambert));
-    SceneObject cube6("cube6", &cube3, Mesh::cube, new Material(Shader::lambert));
+    SceneObject cube2("teapot1", &cubeObj, Mesh::teapot, (Material*) new ColoredMaterial(Color::blue));
+    SceneObject cube3("cube3", &cubeObj, Mesh::cube, (Material*) new ColoredMaterial(Color::white));
+    SceneObject cube4("cube4", &cubeObj, Mesh::cube, (Material*) new ColoredMaterial(Color::blue));
+    SceneObject cube5("cube5", &cube3, Mesh::cube, (Material*) new ColoredMaterial(Color::red));
+    SceneObject cube6("cube6", &cube3, Mesh::cube, (Material*) new ColoredMaterial(Color::blue));
 
-    SceneObject teapot1("teapot", &cube5, Mesh::teapot, new Material(Shader::lambert));
+    SceneObject teapot1("teapot2", &cube5, Mesh::teapot, (Material*) new ColoredMaterial(Color::blue));
 
     ComponentScript* rotator = (ComponentScript*)(new RotatorComponent());
-    cube5.addComponent(rotator);
+    //cube5.addComponent(rotator);
 
     Camera camera(glm::vec3(0.0f, 0.0f, 10.0f));
     CameraRenderer cameraRenderer(mainWindow.getWindow(), &camera, &scene);
