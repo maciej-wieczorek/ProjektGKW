@@ -28,10 +28,17 @@ public:
 	Transform* getChild(int index);
 	void appendChild(Transform* child);
 
+	glm::mat4 getParentMatrix();
 	glm::mat4 getMatrix();
 	bool isDirty();
 
+	Vector3 getPosition();
+	Vector3 getPosition(bool local);
+
 	void move(Vector3 movement);
+	void move(Vector3 movement, bool local);
+	void moveTo(Vector3 position);
+	void moveTo(Vector3 position, bool local);
 private:
 	SceneObject * sceneObject;
 
