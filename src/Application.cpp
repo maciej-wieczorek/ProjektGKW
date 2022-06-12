@@ -52,12 +52,25 @@ int main() {
     chair1.setShader(Shader::pink);
     scene.setRootObject(&chair1);
 
-    SceneObject chair2("chair2", &chair1);
+    SceneObject chair2("camera", &chair1);
     chair2.setModel(&chairModel);
     chair2.setShader(Shader::pink);
 
     CameraComponent* myCamera = new CameraComponent();
     chair2.addComponent((ComponentScript*)myCamera);
+    chair2.transform->setPosition(Vector3(0, 0, 5), Transform::Space::GLOBAL);
+
+    SceneObject chair3("chair3", &chair1);
+    chair3.setModel(&chairModel);
+    chair3.setShader(Shader::pink);
+
+    SceneObject chair4("chair4", &chair3);
+    chair4.setModel(&chairModel);
+    chair4.setShader(Shader::pink);
+
+    SceneObject chair5("chair5", &chair3);
+    chair5.setModel(&chairModel);
+    chair5.setShader(Shader::pink);
 
     CameraRenderer cameraRenderer(mainWindow.getWindow(), myCamera, &scene);
 
@@ -79,6 +92,12 @@ int main() {
 
         mainWindow.beginFrame();
         ImGuiHandler::startFrame();
+
+        /*/
+        bool show_demo_window = true;
+        if (show_demo_window)
+            ImGui::ShowDemoWindow(&show_demo_window);
+        /*/
 
         hierarchyEditorWindow.draw();
         transformEditorWindow.bindTransform(hierarchyEditorWindow.getSelected());

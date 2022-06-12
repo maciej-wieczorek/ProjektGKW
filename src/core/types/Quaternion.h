@@ -13,6 +13,7 @@ public:
 	Quaternion(float x, float y, float z, float w); //direct values for quaternion representation
 	Quaternion(float x, float y, float z); //rotation in euler angles in degrees
 	Quaternion(Vector3 rotationAxis, float rotationAngle); //angle in degrees
+	Quaternion(glm::quat q);
 	Quaternion();
 
 	glm::quat q;

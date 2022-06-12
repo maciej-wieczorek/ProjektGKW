@@ -53,6 +53,14 @@ void Transform::appendChild(Transform* child)
 	children.push_back(child);
 }
 
+Quaternion Transform::getParentRotation(Space space)
+{
+	if (parent == NULL) {
+		return Quaternion::identity;
+	}
+	return parent->getRotation(space);
+}
+
 glm::mat4 Transform::getParentMatrix()
 {
 	if (parent == NULL) {
@@ -90,19 +98,68 @@ bool Transform::isDirty() {
 	return dirty;
 }
 
-Vector3 Transform::getPosition()
+Vector3 Transform::getPosition(Space space)
 {
-	return position;
-}
-
-Vector3 Transform::getPosition(bool local)
-{
-	if (local) {
-		return getPosition();
+	if (space == Space::LOCAL) {
+		return position;
 	}
 	else {
 		glm::vec4 posGlobal = getParentMatrix() * glm::vec4(position.x, position.y, position.z, 1);
 		return Vector3(posGlobal.x, posGlobal.y, posGlobal.z);
+	}
+}
+
+Quaternion Transform::getRotation(Space space)
+{
+	if (space == Space::LOCAL) {
+		return rotation;
+	}
+	else {
+		glm::quat rotGlobal = getParentRotation(Space::GLOBAL).q * rotation.q;
+		return Quaternion(rotGlobal);
+	}
+}
+
+Vector3 Transform::getScale(Space space)
+{
+	if (space == Space::LOCAL) {
+		return scale;
+	}
+	else {
+		glm::vec4 scaleGlobal = getParentMatrix() * glm::vec4(scale.x, scale.y, scale.z, 1);
+		return Vector3(scaleGlobal.x, scaleGlobal.y, scaleGlobal.z);
+	}
+}
+
+void Transform::setPosition(Vector3 position, Space space)
+{
+	if (space == Space::LOCAL) {
+		this->position = position;
+	}
+	else {
+		glm::vec4 newPos = glm::inverse(getParentMatrix()) * glm::vec4(position.x, position.y, position.z, 1);
+		this->position = Vector3(newPos.x, newPos.y, newPos.z);
+	}
+}
+
+void Transform::setRotation(Quaternion rotation, Space space)
+{
+	if (space == Space::LOCAL) {
+		this->rotation = rotation;
+	}
+	else {
+		this->rotation = glm::inverse(getParentRotation(Space::GLOBAL).q) * rotation.q;
+	}
+}
+
+void Transform::setScale(Vector3 scale, Space space)
+{
+	if (space == Space::LOCAL) {
+		this->scale = scale;
+	}
+	else {
+		glm::vec4 scaleGlobal = glm::inverse(getParentMatrix()) * glm::vec4(scale.x, scale.y, scale.z, 1);
+		this->scale = Vector3(scaleGlobal.x, scaleGlobal.y, scaleGlobal.z);
 	}
 }
 
@@ -124,34 +181,18 @@ Vector3 Transform::getRight()
 	return Vector3(right.x, right.y, right.z);
 }
 
-void Transform::move(Vector3 movement)
+void Transform::move(Vector3 movement, Space space)
 {
-	position += movement;
-}
-
-void Transform::move(Vector3 movement, bool local)
-{
-	if (local) {
-		move(movement);
+	if (space == Space::LOCAL) {
+		position += movement;
 	}
 	else {
 		glm::vec4 mov = glm::inverse(getParentMatrix()) * glm::vec4(movement.x, movement.y, movement.z, 0);
-		this->position += Vector3(mov.x, mov.y, mov.z);
+		position += Vector3(mov.x, mov.y, mov.z);
 	}
 }
 
-void Transform::moveTo(Vector3 position)
+void Transform::moveTo(Vector3 position, Space space)
 {
-	this->position = position;
-}
-
-void Transform::moveTo(Vector3 position, bool local)
-{
-	if (local) {
-		moveTo(position);
-	}
-	else {
-		glm::vec4 newPos = glm::inverse(getParentMatrix()) * glm::vec4(position.x, position.y, position.z, 1);
-		this->position = Vector3(newPos.x, newPos.y, newPos.z);
-	}
+	setPosition(position, space);
 }

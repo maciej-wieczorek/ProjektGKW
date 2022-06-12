@@ -12,5 +12,5 @@ void RotatorComponent::Update()
 	//sceneObject->transform->move(movement, false);
 	//sceneObject->transform->moveTo(finalPosition, false);*/
 
-	sceneObject->transform->move(Vector3::right * FrameStats::getDeltaTime(), false);
+	sceneObject->transform->move(Vector3::right * FrameStats::getDeltaTime(), Transform::Space::GLOBAL);
 }

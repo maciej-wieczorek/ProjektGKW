@@ -2,7 +2,7 @@
 
 glm::mat4 CameraComponent::getViewMatrix()
 {
-	Vector3 position = sceneObject->transform->getPosition(false);
+	Vector3 position = sceneObject->transform->getPosition(Transform::Space::GLOBAL);
 
 	return glm::lookAt(position.toVec3(), (position - sceneObject->transform->getForward()).toVec3(), sceneObject->transform->getUp().toVec3());
 }

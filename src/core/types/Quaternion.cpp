@@ -1,5 +1,7 @@
 #include "Quaternion.h"
 
+const Quaternion Quaternion::identity = Quaternion();
+
 Quaternion::Quaternion(float x, float y, float z, float w) {
 	q = glm::quat(w, x, y, z);
 }
@@ -12,8 +14,13 @@ Quaternion::Quaternion(Vector3 rotationAxis, float rotationAngle) {
 	q = glm::angleAxis(glm::radians(rotationAngle), rotationAxis.toVec3());
 }
 
+Quaternion::Quaternion(glm::quat q)
+{
+	this->q = q;
+}
+
 Quaternion::Quaternion() {
-	q = glm::quat();
+	q = glm::identity<glm::quat>();
 }
 
 glm::mat4 Quaternion::getRotationMatrix() {

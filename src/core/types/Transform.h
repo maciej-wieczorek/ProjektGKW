@@ -11,6 +11,12 @@ class SceneObject;
 
 class Transform {
 public:
+
+	enum class Space {
+		GLOBAL,
+		LOCAL
+	};
+
 	Transform(SceneObject* sceneObject, Transform* parent);
 	Transform(SceneObject* sceneObject);
 
@@ -28,21 +34,25 @@ public:
 	Transform* getChild(int index);
 	void appendChild(Transform* child);
 
+	Quaternion getParentRotation(Space space);
 	glm::mat4 getParentMatrix();
 	glm::mat4 getMatrix();
 	bool isDirty();
 
-	Vector3 getPosition();
-	Vector3 getPosition(bool local);
+	Vector3 getPosition(Space space);
+	Quaternion getRotation(Space space);
+	Vector3 getScale(Space space);
+
+	void setPosition(Vector3 position, Space space);
+	void setRotation(Quaternion rotation, Space space);
+	void setScale(Vector3 scale, Space space);
 
 	Vector3 getForward();
 	Vector3 getUp();
 	Vector3 getRight();
 
-	void move(Vector3 movement);
-	void move(Vector3 movement, bool local);
-	void moveTo(Vector3 position);
-	void moveTo(Vector3 position, bool local);
+	void move(Vector3 movement, Space space);
+	void moveTo(Vector3 position, Space space);
 private:
 	SceneObject * sceneObject;
 

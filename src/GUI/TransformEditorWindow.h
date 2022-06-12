@@ -19,8 +19,12 @@ public:
 private:
 	std::string title;
 	Transform* transform;
-	float** position;
-	float** rotation;
-	float** scale;
+	Transform::Space space = Transform::Space::LOCAL;
+	float position[3];
+	float rotation[3];
+	float scale[3];
 	Vector3 rotationEuler;
+
+	void readValues();
+	void applyValues();
 };

@@ -27,8 +27,6 @@ void HierarchyEditorWindow::draw()
 
     if (selected != NULL) {
         ImGui::Text("Selected: %s", selected->getSceneObject()->getName().c_str());
-        ImGui::Text("position local: %f %f %f", selected->getPosition().x, selected->getPosition().y, selected->getPosition().z);
-        ImGui::Text("position global: %f %f %f", selected->getPosition(false).x, selected->getPosition(false).y, selected->getPosition(false).z);
         ImGui::Text("forward: %f %f %f", selected->getForward().x, selected->getForward().y, selected->getForward().z);
     }
 
