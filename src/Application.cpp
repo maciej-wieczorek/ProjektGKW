@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -15,6 +16,7 @@
 #include "Components/RotatorComponent.h"
 #include "core/FrameStats.h"
 #include "core/Materials/ColoredMaterial.h"
+#include "core/Materials/TexturedMaterial.h"
 #include "types/Color.h"
 
 
@@ -38,19 +40,19 @@ int main() {
 
     Mesh::initMeshes();
     Shader::initShaders();
+    Texture::initTextures();
 
     Scene scene;
     SceneObject cubeObj("root");
-    cubeObj.setMesh(new Mesh(Cube::vertices, Cube::normals, Cube::colors, Cube::verticesCount));
     scene.setRootObject(&cubeObj);
 
-    SceneObject cube2("teapot1", &cubeObj, Mesh::teapot, (Material*) new ColoredMaterial(Color::blue));
-    SceneObject cube3("cube3", &cubeObj, Mesh::cube, (Material*) new ColoredMaterial(Color::white));
-    SceneObject cube4("cube4", &cubeObj, Mesh::cube, (Material*) new ColoredMaterial(Color::blue));
-    SceneObject cube5("cube5", &cube3, Mesh::cube, (Material*) new ColoredMaterial(Color::red));
-    SceneObject cube6("cube6", &cube3, Mesh::cube, (Material*) new ColoredMaterial(Color::blue));
+    //SceneObject cube2("teapot1", &cubeObj, Mesh::teapot, (Material*) new TexturedMaterial(new Texture("E:/bricks.png")));
+    SceneObject cube3("cube3", &cubeObj, Mesh::cube, (Material*) new TexturedMaterial(Texture::bricks));
+    //SceneObject cube4("cube4", &cubeObj, Mesh::cube, (Material*) new ColoredMaterial(Color::blue));
+    //SceneObject cube5("cube5", &cube3, Mesh::cube, (Material*) new ColoredMaterial(Color::red));
+    //SceneObject cube6("cube6", &cube3, Mesh::cube, (Material*) new ColoredMaterial(Color::blue));
 
-    SceneObject teapot1("teapot2", &cube5, Mesh::teapot, (Material*) new ColoredMaterial(Color::blue));
+    //SceneObject teapot1("teapot2", &cube5, Mesh::teapot, (Material*) new ColoredMaterial(Color::blue));
 
     ComponentScript* rotator = (ComponentScript*)(new RotatorComponent());
     //cube5.addComponent(rotator);

@@ -59,12 +59,16 @@ void CameraRenderer::renderObject(const glm::mat4& V, const glm::mat4& P, SceneO
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
 
+    glBindBuffer(GL_ARRAY_BUFFER, object->getMesh()->VBO[3]);
+    glEnableVertexAttribArray(3);
+    glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+
 	glm::mat4 M = object->getTransform()->getMatrix();
 
     shader->setMat4("P", P);
     shader->setMat4("V", V);
     shader->setMat4("M", M);
-
+    
     object->material->setUniforms();
 
     glDrawArrays(GL_TRIANGLES, 0, object->getMesh()->verticesCount);
@@ -72,4 +76,5 @@ void CameraRenderer::renderObject(const glm::mat4& V, const glm::mat4& P, SceneO
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
     glDisableVertexAttribArray(2);
+    glDisableVertexAttribArray(3);
 }

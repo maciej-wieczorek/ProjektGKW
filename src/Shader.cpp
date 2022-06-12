@@ -10,12 +10,14 @@
 
 Shader* Shader::lambert = NULL;
 Shader* Shader::simplest = NULL;
+Shader* Shader::texturedLambert = NULL;
 Shader* Shader::pink = NULL;
 
 void Shader::initShaders() {
     Shader::lambert = new Shader(ROOT_DIR "res/shaders/v_lambert.glsl", ROOT_DIR "res/shaders/f_lambert.glsl");
     Shader::pink = new Shader(ROOT_DIR "res/shaders/shader.vert", ROOT_DIR "res/shaders/shader.frag");
     Shader::simplest = new Shader(ROOT_DIR "res/shaders/v_simplest.glsl", ROOT_DIR "res/shaders/f_simplest.glsl");
+    Shader::texturedLambert = new Shader(ROOT_DIR "res/shaders/v_lamberttextured.glsl", ROOT_DIR "res/shaders/f_lamberttextured.glsl");
 }
 
 Shader::Shader(const char* vertexPath, const char* fragmentPath)

@@ -13,6 +13,7 @@ class Shader
 public:
     static Shader* lambert;
     static Shader* simplest;
+    static Shader* texturedLambert;
     static Shader* pink;
     static void Shader::initShaders();
 

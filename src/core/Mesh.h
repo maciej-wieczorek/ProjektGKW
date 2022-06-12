@@ -13,7 +13,8 @@ public:
 	enum BUFFER_TYPE {
 		VERTICES = 0,
 		NORMALS = 1,
-		COLORS = 2
+		COLORS = 2,
+		TEX_COORDS = 3
 	};
 
 	static Mesh* cube;
@@ -21,10 +22,10 @@ public:
 
 	static void initMeshes();
 
-	unsigned int VBO[3]; //[vertices, normals, colors]
+	unsigned int VBO[4]; //[vertices, normals, colors, texCoords]
 	unsigned int VAO;
 
-	Mesh(std::vector<float>& vertices, std::vector<float>& normals, std::vector<float>& colors, int verticesCount);
+	Mesh(std::vector<float>& vertices, std::vector<float>& normals, std::vector<float>& colors, std::vector<float>& texCoords, int verticesCount);
 
 	std::vector<float> vertices;
 	std::vector<float> normals;
