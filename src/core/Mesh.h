@@ -1,39 +1,40 @@
 #pragma once
 
+#include <string>
 #include <vector>
 
 #include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
-#include "primitives/Cube.h"
-#include "primitives/Teapot.h"
+#include "Shader.h"
 
+struct Vertex {
+    glm::vec3 position;
+    glm::vec3 normal;
+    glm::vec2 texCoords;
+};
+
+struct Texture {
+    unsigned int id;
+    std::string type;
+    std::string path;
+};
 
 class Mesh {
 public:
-	enum BUFFER_TYPE {
-		VERTICES = 0,
-		NORMALS = 1,
-		COLORS = 2,
-		TEX_COORDS = 3
-	};
+    Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
 
-	static Mesh* cube;
-	static Mesh* teapot;
+    void draw(Shader& shader);
 
-	static void initMeshes();
-
-	unsigned int VBO[4]; //[vertices, normals, colors, texCoords]
-	unsigned int VAO;
-
-	Mesh(std::vector<float>& vertices, std::vector<float>& normals, std::vector<float>& colors, std::vector<float>& texCoords, int verticesCount);
-
-	std::vector<float> vertices;
-	std::vector<float> normals;
-	std::vector<float> colors;
-	std::vector<float> texCoords;
-	int verticesCount;
-	bool castShadows;
+    // mesh Data
+    std::vector<Vertex> vertices;
+    std::vector<unsigned int> indices;
+    std::vector<Texture> textures;
+    unsigned int VAO;
 
 private:
-	void SetBuffers();
+    void setupMesh();
+
+    unsigned int VBO, EBO;
 };

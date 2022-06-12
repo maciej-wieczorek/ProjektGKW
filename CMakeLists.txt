@@ -27,7 +27,7 @@ configure_file(src/helpers/RootDir.h.in src/helpers/RootDir.h)
 include_directories(${CMAKE_BINARY_DIR}/src)
 	
 # Define the executable
-add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})
+add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES} )
 
 # We need a CMAKE_DIR with some code to find external dependencies
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
@@ -48,11 +48,15 @@ message(STATUS "GLM included at ${GLM_INCLUDE_DIR}")
 find_package(GLFW3 REQUIRED)
 message(STATUS "Found GLFW3 in ${GLFW3_INCLUDE_DIR}")
 
+# ASSIMP
+find_package(ASSIMP REQUIRED)
+message(STATUS "Found ASSIMP in ${ASSIMP_INCLUDE_DIR}")
+
 # GLAD
-add_library(GLAD "thirdparty/glad.c")
+add_library(GLAD "thirdparty/glad.c" )
 
 # Put all libraries into a variable
-set(LIBS ${GLFW3_LIBRARY} ${OPENGL_LIBRARY} GLAD ${CMAKE_DL_LIBS})
+set(LIBS ${GLFW3_LIBRARY} ${OPENGL_LIBRARY} GLAD ${ASSIMP_LIBRARY} ${CMAKE_DL_LIBS})
 
 # Define the include DIRs
 include_directories(
@@ -60,6 +64,7 @@ include_directories(
 	"${CMAKE_SOURCE_DIR}/include"
 	"${CMAKE_SOURCE_DIR}/include/glad"
 	"${CMAKE_SOURCE_DIR}/include/glm"
+	"${CMAKE_SOURCE_DIR}/include/stb_image"
 	"${CMAKE_SOURCE_DIR}/src/vendor/imgui"
 	"${CMAKE_SOURCE_DIR}/src/core"
 	"${CMAKE_SOURCE_DIR}/src/core/types"

@@ -6,7 +6,7 @@ unsigned int SceneObject::getNextId() {
 	return nextId++;
 }
 
-SceneObject::SceneObject(std::string name, SceneObject* parent, Mesh* mesh, Material* material)
+SceneObject::SceneObject(std::string name, SceneObject* parent)
 {
 	this->name = name;
 	Transform* parentTransform = NULL;
@@ -14,24 +14,17 @@ SceneObject::SceneObject(std::string name, SceneObject* parent, Mesh* mesh, Mate
 		parentTransform = parent->getTransform();
 	}
 	this->transform = new Transform(this, parentTransform);
-	this->mesh = mesh;
-	this->material = material;
+	this->model = nullptr;
 
 	this->id = SceneObject::getNextId();
 }
 
-SceneObject::SceneObject(std::string name, SceneObject* parent) : SceneObject(name, parent, NULL, NULL)
-{
-	
-}
-
 SceneObject::SceneObject(std::string name) : SceneObject(name, NULL)
 {
-	
 }
 
-SceneObject::SceneObject() : SceneObject("Object") {
-
+SceneObject::SceneObject() : SceneObject("Object")
+{
 }
 
 unsigned int SceneObject::getId()
@@ -49,19 +42,24 @@ Transform* SceneObject::getTransform()
 	return transform;
 }
 
-Mesh* SceneObject::getMesh()
+Model* SceneObject::getModel()
 {
-	return mesh;
+	return model;
 }
 
-void SceneObject::setMesh(Mesh* mesh)
+void SceneObject::setModel(Model* model)
 {
-	this->mesh = mesh;
+	this->model = model;
 }
 
-Material* SceneObject::getMaterial()
+Shader* SceneObject::getShader()
 {
-	return material;
+	return shader;
+}
+
+void SceneObject::setShader(Shader* shader)
+{
+	this->shader = shader;
 }
 
 void SceneObject::addComponent(ComponentScript* component)

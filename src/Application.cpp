@@ -39,22 +39,31 @@ int main() {
 
     ImGuiHandler::setContext(mainWindow.getWindow(), GLSL_VERSION);
 
-    Mesh::initMeshes();
+    stbi_set_flip_vertically_on_load(true);
+
     Shader::initShaders();
-    Texture::initTextures();
+    // Texture::initTextures();
 
-    Scene scene;
-    SceneObject cubeObj("root");
-    scene.setRootObject(&cubeObj);
+    Model chairModel(ROOT_DIR "res/models/chair/chair.obj");
 
+<<<<<<< HEAD
     //SceneObject cube2("teapot1", &cubeObj, Mesh::teapot, (Material*) new TexturedMaterial(new Texture("E:/bricks.png")));
     SceneObject cube3("cube3", &cubeObj, Mesh::cube, (Material*) new TexturedMaterial(Texture::bricks));
     SceneObject cameraObj("camera", &cubeObj, NULL, NULL);
     cameraObj.transform->moveTo(Vector3(0, 0, 8));
     //SceneObject cube5("cube5", &cube3, Mesh::cube, (Material*) new ColoredMaterial(Color::red));
     //SceneObject cube6("cube6", &cube3, Mesh::cube, (Material*) new ColoredMaterial(Color::blue));
+=======
+    Scene scene;
+    SceneObject chair1("root");
+    chair1.setModel(&chairModel);
+    chair1.setShader(Shader::pink);
+    scene.setRootObject(&chair1);
+>>>>>>> 14f8033acba621edb5c13a0e556894b6a6b81baf
 
-    //SceneObject teapot1("teapot2", &cube5, Mesh::teapot, (Material*) new ColoredMaterial(Color::blue));
+    SceneObject chair2("chair2", &chair1);
+    chair2.setModel(&chairModel);
+    chair2.setShader(Shader::pink);
 
     CameraComponent* myCamera = new CameraComponent();
     cameraObj.addComponent((ComponentScript*)myCamera);
@@ -68,7 +77,7 @@ int main() {
 
     float value = 1;
     HierarchyEditorWindow hierarchyEditorWindow = HierarchyEditorWindow("Hierarchy", scene.getRootObject()->transform);
-    TransformEditorWindow transformEditorWindow = TransformEditorWindow("Transform", cubeObj.getTransform());
+    TransformEditorWindow transformEditorWindow = TransformEditorWindow("Transform", chair1.getTransform());
 
     while (!mainWindow.shouldClose()) {
         //PRE-UPDATE
