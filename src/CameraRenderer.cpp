@@ -37,44 +37,14 @@ void CameraRenderer::render()
 
 void CameraRenderer::renderObject(const glm::mat4& V, const glm::mat4& P, SceneObject* object)
 {  
-    if (object->getMesh() == NULL || object->material == NULL) {
-        return;
-    }
-
-    Shader* shader = object->material->shader;
-
+    Shader* shader = object->getShader();
     shader->use();
 
-    glBindVertexArray(object->getMesh()->VAO);
+    glm::mat4 M = object->getTransform()->getMatrix();
 
-    glBindBuffer(GL_ARRAY_BUFFER, object->getMesh()->VBO[0]);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, object->getMesh()->VBO[1]);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, object->getMesh()->VBO[2]);
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, object->getMesh()->VBO[3]);
-    glEnableVertexAttribArray(3);
-    glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
-
-	glm::mat4 M = object->getTransform()->getMatrix();
-
-    shader->setMat4("P", P);
+    shader->setMat4("P", P); //TODO: change to work with pointer (glm::f32*)
     shader->setMat4("V", V);
     shader->setMat4("M", M);
-    
-    object->material->setUniforms();
 
-    glDrawArrays(GL_TRIANGLES, 0, object->getMesh()->verticesCount);
-
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(2);
-    glDisableVertexAttribArray(3);
+    object->getModel()->draw(*shader);
 }

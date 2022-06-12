@@ -5,8 +5,7 @@
 
 #include "types/Transform.h"
 #include "ComponentScript.h"
-#include "Mesh.h"
-#include "Material.h"
+#include "Model.h"
 
 class Transform;
 class ComponentScript;
@@ -16,9 +15,7 @@ public:
 	static unsigned int getNextId();
 
 	Transform* transform;
-	Material* material;
 
-	SceneObject(std::string name, SceneObject* parent, Mesh* mesh, Material* material);
 	SceneObject(std::string name, SceneObject* parent);
 	SceneObject(std::string name);
 	SceneObject();
@@ -27,9 +24,10 @@ public:
 
 	std::string getName();
 	Transform* getTransform();
-	Mesh* getMesh();
-	void setMesh(Mesh* mesh);
-	Material* getMaterial();
+	Model* getModel();
+	void setModel(Model* model);
+	Shader* getShader();
+	void setShader(Shader* shader);
 
 	void addComponent(ComponentScript* component);
 
@@ -40,5 +38,6 @@ private:
 	unsigned int id;
 	std::string name;
 	std::forward_list<ComponentScript*> components;
-	Mesh* mesh;
+	Model* model;
+	Shader* shader;
 };

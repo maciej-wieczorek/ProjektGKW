@@ -1,7 +1,7 @@
 #include "Cube.h"
 
 std::vector<float> Cube::vertices = {
-    //Œciana 1
+    //ï¿½ciana 1
     1.0f,-1.0f,-1.0f,1.0f,
     -1.0f, 1.0f,-1.0f,1.0f,
     -1.0f,-1.0f,-1.0f,1.0f,
@@ -10,7 +10,7 @@ std::vector<float> Cube::vertices = {
     1.0f, 1.0f,-1.0f,1.0f,
     -1.0f, 1.0f,-1.0f,1.0f,
 
-    //Œciana 2
+    //ï¿½ciana 2
     -1.0f,-1.0f, 1.0f,1.0f,
     1.0f, 1.0f, 1.0f,1.0f,
     1.0f,-1.0f, 1.0f,1.0f,
@@ -20,7 +20,7 @@ std::vector<float> Cube::vertices = {
     1.0f, 1.0f, 1.0f,1.0f,
 
 
-    //Œciana 3
+    //ï¿½ciana 3
     -1.0f,-1.0f,-1.0f,1.0f,
     1.0f,-1.0f, 1.0f,1.0f,
     1.0f,-1.0f,-1.0f,1.0f,
@@ -29,7 +29,7 @@ std::vector<float> Cube::vertices = {
     -1.0f,-1.0f, 1.0f,1.0f,
     1.0f,-1.0f, 1.0f,1.0f,
 
-    //Œciana 4
+    //ï¿½ciana 4
     -1.0f, 1.0f, 1.0f,1.0f,
     1.0f, 1.0f,-1.0f,1.0f,
     1.0f, 1.0f, 1.0f,1.0f,
@@ -38,7 +38,7 @@ std::vector<float> Cube::vertices = {
     -1.0f, 1.0f,-1.0f,1.0f,
     1.0f, 1.0f,-1.0f,1.0f,
 
-    //Œciana 5
+    //ï¿½ciana 5
     -1.0f,-1.0f,-1.0f,1.0f,
     -1.0f, 1.0f, 1.0f,1.0f,
     -1.0f,-1.0f, 1.0f,1.0f,
@@ -47,7 +47,7 @@ std::vector<float> Cube::vertices = {
     -1.0f, 1.0f,-1.0f,1.0f,
     -1.0f, 1.0f, 1.0f,1.0f,
 
-    //Œciana 6
+    //ï¿½ciana 6
     1.0f,-1.0f, 1.0f,1.0f,
     1.0f, 1.0f,-1.0f,1.0f,
     1.0f,-1.0f,-1.0f,1.0f,
@@ -57,7 +57,7 @@ std::vector<float> Cube::vertices = {
     1.0f, 1.0f,-1.0f,1.0f,
 };
 std::vector<float> Cube::colors = {
-    //Œciana 1
+    //ï¿½ciana 1
     1.0f,0.0f,0.0f,1.0f,
     1.0f,0.0f,0.0f,1.0f,
     1.0f,0.0f,0.0f,1.0f,
@@ -66,7 +66,7 @@ std::vector<float> Cube::colors = {
     1.0f,0.0f,0.0f,1.0f,
     1.0f,0.0f,0.0f,1.0f,
 
-    //Œciana 2
+    //ï¿½ciana 2
     0.0f,1.0f,0.0f,1.0f,
     0.0f,1.0f,0.0f,1.0f,
     0.0f,1.0f,0.0f,1.0f,
@@ -75,7 +75,7 @@ std::vector<float> Cube::colors = {
     0.0f,1.0f,0.0f,1.0f,
     0.0f,1.0f,0.0f,1.0f,
 
-    //Œciana 3
+    //ï¿½ciana 3
     0.0f,0.0f,1.0f,1.0f,
     0.0f,0.0f,1.0f,1.0f,
     0.0f,0.0f,1.0f,1.0f,
@@ -84,7 +84,7 @@ std::vector<float> Cube::colors = {
     0.0f,0.0f,1.0f,1.0f,
     0.0f,0.0f,1.0f,1.0f,
 
-    //Œciana 4
+    //ï¿½ciana 4
     1.0f,1.0f,0.0f,1.0f,
     1.0f,1.0f,0.0f,1.0f,
     1.0f,1.0f,0.0f,1.0f,
@@ -93,7 +93,7 @@ std::vector<float> Cube::colors = {
     1.0f,1.0f,0.0f,1.0f,
     1.0f,1.0f,0.0f,1.0f,
 
-    //Œciana 5
+    //ï¿½ciana 5
     0.0f,1.0f,1.0f,1.0f,
     0.0f,1.0f,1.0f,1.0f,
     0.0f,1.0f,1.0f,1.0f,
@@ -102,7 +102,7 @@ std::vector<float> Cube::colors = {
     0.0f,1.0f,1.0f,1.0f,
     0.0f,1.0f,1.0f,1.0f,
 
-    //Œciana 6
+    //ï¿½ciana 6
     1.0f,1.0f,1.0f,1.0f,
     1.0f,1.0f,1.0f,1.0f,
     1.0f,1.0f,1.0f,1.0f,
@@ -114,7 +114,7 @@ std::vector<float> Cube::colors = {
 
 
 std::vector<float> Cube::normals = {
-    //Œciana 1
+    //ï¿½ciana 1
     0.0f, 0.0f,-1.0f,0.0f,
     0.0f, 0.0f,-1.0f,0.0f,
     0.0f, 0.0f,-1.0f,0.0f,
@@ -123,7 +123,7 @@ std::vector<float> Cube::normals = {
     0.0f, 0.0f,-1.0f,0.0f,
     0.0f, 0.0f,-1.0f,0.0f,
 
-    //Œciana 2
+    //ï¿½ciana 2
     0.0f, 0.0f, 1.0f,0.0f,
     0.0f, 0.0f, 1.0f,0.0f,
     0.0f, 0.0f, 1.0f,0.0f,
@@ -132,7 +132,7 @@ std::vector<float> Cube::normals = {
     0.0f, 0.0f, 1.0f,0.0f,
     0.0f, 0.0f, 1.0f,0.0f,
 
-    //Œciana 3
+    //ï¿½ciana 3
     0.0f,-1.0f, 0.0f,0.0f,
     0.0f,-1.0f, 0.0f,0.0f,
     0.0f,-1.0f, 0.0f,0.0f,
@@ -141,7 +141,7 @@ std::vector<float> Cube::normals = {
     0.0f,-1.0f, 0.0f,0.0f,
     0.0f,-1.0f, 0.0f,0.0f,
 
-    //Œciana 4
+    //ï¿½ciana 4
     0.0f, 1.0f, 0.0f,0.0f,
     0.0f, 1.0f, 0.0f,0.0f,
     0.0f, 1.0f, 0.0f,0.0f,
@@ -150,7 +150,7 @@ std::vector<float> Cube::normals = {
     0.0f, 1.0f, 0.0f,0.0f,
     0.0f, 1.0f, 0.0f,0.0f,
 
-    //Œciana 5
+    //ï¿½ciana 5
     -1.0f, 0.0f, 0.0f,0.0f,
     -1.0f, 0.0f, 0.0f,0.0f,
     -1.0f, 0.0f, 0.0f,0.0f,
@@ -159,7 +159,7 @@ std::vector<float> Cube::normals = {
     -1.0f, 0.0f, 0.0f,0.0f,
     -1.0f, 0.0f, 0.0f,0.0f,
 
-    //Œciana 6
+    //ï¿½ciana 6
     1.0f, 0.0f, 0.0f,0.0f,
     1.0f, 0.0f, 0.0f,0.0f,
     1.0f, 0.0f, 0.0f,0.0f,

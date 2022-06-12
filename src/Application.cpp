@@ -38,21 +38,22 @@ int main() {
 
     ImGuiHandler::setContext(mainWindow.getWindow(), GLSL_VERSION);
 
-    Mesh::initMeshes();
+    stbi_set_flip_vertically_on_load(true);
+
     Shader::initShaders();
-    Texture::initTextures();
+    // Texture::initTextures();
+
+    Model chairModel(ROOT_DIR "res/models/chair/chair.obj");
 
     Scene scene;
-    SceneObject cubeObj("root");
-    scene.setRootObject(&cubeObj);
+    SceneObject chair1("root");
+    chair1.setModel(&chairModel);
+    chair1.setShader(Shader::pink);
+    scene.setRootObject(&chair1);
 
-    //SceneObject cube2("teapot1", &cubeObj, Mesh::teapot, (Material*) new TexturedMaterial(new Texture("E:/bricks.png")));
-    SceneObject cube3("cube3", &cubeObj, Mesh::cube, (Material*) new TexturedMaterial(Texture::bricks));
-    //SceneObject cube4("cube4", &cubeObj, Mesh::cube, (Material*) new ColoredMaterial(Color::blue));
-    //SceneObject cube5("cube5", &cube3, Mesh::cube, (Material*) new ColoredMaterial(Color::red));
-    //SceneObject cube6("cube6", &cube3, Mesh::cube, (Material*) new ColoredMaterial(Color::blue));
-
-    //SceneObject teapot1("teapot2", &cube5, Mesh::teapot, (Material*) new ColoredMaterial(Color::blue));
+    SceneObject chair2("chair2", &chair1);
+    chair2.setModel(&chairModel);
+    chair2.setShader(Shader::pink);
 
     ComponentScript* rotator = (ComponentScript*)(new RotatorComponent());
     //cube5.addComponent(rotator);
@@ -62,7 +63,7 @@ int main() {
 
     float value = 1;
     HierarchyEditorWindow hierarchyEditorWindow = HierarchyEditorWindow("Hierarchy", scene.getRootObject()->transform);
-    TransformEditorWindow transformEditorWindow = TransformEditorWindow("Transform", cubeObj.getTransform());
+    TransformEditorWindow transformEditorWindow = TransformEditorWindow("Transform", chair1.getTransform());
 
     while (!mainWindow.shouldClose()) {
         //PRE-UPDATE
