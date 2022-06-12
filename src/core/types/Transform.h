@@ -35,6 +35,10 @@ public:
 	Vector3 getPosition();
 	Vector3 getPosition(bool local);
 
+	Vector3 getForward();
+	Vector3 getUp();
+	Vector3 getRight();
+
 	void move(Vector3 movement);
 	void move(Vector3 movement, bool local);
 	void moveTo(Vector3 position);

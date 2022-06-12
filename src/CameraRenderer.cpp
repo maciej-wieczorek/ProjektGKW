@@ -1,6 +1,6 @@
 #include "CameraRenderer.h"
 
-CameraRenderer::CameraRenderer(GLFWwindow* window, Camera* camera, Scene* scene) :
+CameraRenderer::CameraRenderer(GLFWwindow* window, CameraComponent* camera, Scene* scene) :
     window{ window },
     camera{ camera },
     scene{ scene }
@@ -17,9 +17,13 @@ void CameraRenderer::render()
     glClearColor(0.1, 0.1, 0.1, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glm::mat4 V = camera->GetViewMatrix();
+    /*glm::mat4 V = camera->GetViewMatrix();
 
     glm::mat4 P = glm::perspective(glm::radians(camera->Zoom), (float)frame_width / (float)frame_height, 0.1f, 100.0f); //TODO: move clipping values to camera
+    */
+
+    glm::mat4 V = camera->getViewMatrix();
+    glm::mat4 P = camera->getPerspectiveMatrix((float)frame_width / (float)frame_height);
 
     std::stack<SceneObject*> renderStack;
     renderStack.push(scene->getRootObject());

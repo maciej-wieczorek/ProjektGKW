@@ -27,9 +27,14 @@ Vector3::Vector3() : Vector3(0, 0, 0)
 {
 }
 
-glm::vec3 Vector3::toVec3()
+glm::vec3 Vector3::toVec3() const
 {
 	return glm::vec3(x, y, z);
+}
+
+std::string Vector3::toString() const
+{
+	return "(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ")";
 }
 
 Vector3 Vector3::normalized() const

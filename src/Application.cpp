@@ -15,6 +15,7 @@
 #include "Scene.h"
 #include "Shader.h"
 #include "Components/RotatorComponent.h"
+#include "Components/CameraComponent.h"
 #include "core/FrameStats.h"
 #include "core/Materials/ColoredMaterial.h"
 #include "core/Materials/TexturedMaterial.h"
@@ -57,11 +58,10 @@ int main() {
     bath1.setModel(&bathModel);
     bath1.setShader(Shader::pink);
 
-    ComponentScript* rotator = (ComponentScript*)(new RotatorComponent());
-    //cube5.addComponent(rotator);
+    CameraComponent* myCamera = new CameraComponent();
+    chair2.addComponent((ComponentScript*)myCamera);
 
-    Camera camera(glm::vec3(0.0f, 0.0f, 10.0f));
-    CameraRenderer cameraRenderer(mainWindow.getWindow(), &camera, &scene);
+    CameraRenderer cameraRenderer(mainWindow.getWindow(), myCamera, &scene);
 
     float value = 1;
     HierarchyEditorWindow hierarchyEditorWindow = HierarchyEditorWindow("Hierarchy", scene.getRootObject()->transform);
