@@ -9,6 +9,7 @@
 #include <iostream>
 
 #include "Camera.h"
+#include "Components/CameraComponent.h"
 #include "core/Scene.h"
 #include "core/SceneObject.h"
 #include "helpers/RootDir.h"
@@ -17,11 +18,12 @@
 
 class CameraRenderer {
 public:
-	CameraRenderer(GLFWwindow* window, Camera* camera, Scene* scene);
+	//CameraRenderer(GLFWwindow* window, Camera* camera, Scene* scene);
+	CameraRenderer(GLFWwindow* window, CameraComponent* camera, Scene* scene);
 	void render();
 private:
 	GLFWwindow* window;
-	Camera* camera;
+	CameraComponent* camera;
 	Scene* scene; //tmp, move to Camera
 
 	void renderObject(const glm::mat4 &M, const glm::mat4 &P, SceneObject* object);

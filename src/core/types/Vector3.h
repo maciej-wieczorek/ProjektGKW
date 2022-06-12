@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <cmath>
 
 #include <glm/glm.hpp>
@@ -22,7 +23,9 @@ public:
 	Vector3(const glm::vec3& other);
 	Vector3();
 
-	glm::vec3 toVec3();
+	glm::vec3 toVec3() const;
+
+	std::string toString() const;
 
 	Vector3 normalized() const;
 	float magnitude() const;

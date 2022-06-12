@@ -106,6 +106,24 @@ Vector3 Transform::getPosition(bool local)
 	}
 }
 
+Vector3 Transform::getForward()
+{
+	glm::vec4 forw = getMatrix() * glm::vec4(Vector3::forward.x, Vector3::forward.y, Vector3::forward.z, 0);
+	return Vector3(forw.x, forw.y, forw.z);
+}
+
+Vector3 Transform::getUp()
+{
+	glm::vec4 up = getMatrix() * glm::vec4(Vector3::up.x, Vector3::up.y, Vector3::up.z, 0);
+	return Vector3(up.x, up.y, up.z);
+}
+
+Vector3 Transform::getRight()
+{
+	glm::vec4 right = getMatrix() * glm::vec4(Vector3::right.x, Vector3::right.y, Vector3::right.z, 0);
+	return Vector3(right.x, right.y, right.z);
+}
+
 void Transform::move(Vector3 movement)
 {
 	position += movement;

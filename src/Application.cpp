@@ -14,6 +14,7 @@
 #include "Scene.h"
 #include "Shader.h"
 #include "Components/RotatorComponent.h"
+#include "Components/CameraComponent.h"
 #include "core/FrameStats.h"
 #include "core/Materials/ColoredMaterial.h"
 #include "core/Materials/TexturedMaterial.h"
@@ -48,17 +49,22 @@ int main() {
 
     //SceneObject cube2("teapot1", &cubeObj, Mesh::teapot, (Material*) new TexturedMaterial(new Texture("E:/bricks.png")));
     SceneObject cube3("cube3", &cubeObj, Mesh::cube, (Material*) new TexturedMaterial(Texture::bricks));
-    //SceneObject cube4("cube4", &cubeObj, Mesh::cube, (Material*) new ColoredMaterial(Color::blue));
+    SceneObject cameraObj("camera", &cubeObj, NULL, NULL);
+    cameraObj.transform->moveTo(Vector3(0, 0, 8));
     //SceneObject cube5("cube5", &cube3, Mesh::cube, (Material*) new ColoredMaterial(Color::red));
     //SceneObject cube6("cube6", &cube3, Mesh::cube, (Material*) new ColoredMaterial(Color::blue));
 
     //SceneObject teapot1("teapot2", &cube5, Mesh::teapot, (Material*) new ColoredMaterial(Color::blue));
 
-    ComponentScript* rotator = (ComponentScript*)(new RotatorComponent());
+    CameraComponent* myCamera = new CameraComponent();
+    cameraObj.addComponent((ComponentScript*)myCamera);
+
+    //ComponentScript* rotator = (ComponentScript*)(new RotatorComponent());
     //cube5.addComponent(rotator);
 
-    Camera camera(glm::vec3(0.0f, 0.0f, 10.0f));
-    CameraRenderer cameraRenderer(mainWindow.getWindow(), &camera, &scene);
+    //Camera camera(glm::vec3(0.0f, 0.0f, 10.0f));
+    //CameraRenderer cameraRenderer(mainWindow.getWindow(), &camera, &scene);
+    CameraRenderer cameraRenderer(mainWindow.getWindow(), myCamera, &scene);
 
     float value = 1;
     HierarchyEditorWindow hierarchyEditorWindow = HierarchyEditorWindow("Hierarchy", scene.getRootObject()->transform);

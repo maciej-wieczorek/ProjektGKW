@@ -42,7 +42,7 @@ void TransformEditorWindow::draw()
     ImGui::Begin(title.c_str());
 
     if (this->transform != NULL) {
-        ImGui::DragFloat3("position", *position, 0.1, -5, 5);
+        ImGui::DragFloat3("position", *position, 0.1, -15, 15);
 
         ImGui::DragFloat3("rotation", *rotation, 1, -360, 360);
         transform->rotation.setEuler(*rotation[0], *rotation[1], *rotation[2]);
