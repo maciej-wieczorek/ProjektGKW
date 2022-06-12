@@ -2,7 +2,7 @@
 
 glm::mat4 CameraComponent::getViewMatrix()
 {
-	Vector3 position = sceneObject->transform->getPosition(false);
+	Vector3 position = getPosition();
 
 	return glm::lookAt(position.toVec3(), (position - sceneObject->transform->getForward()).toVec3(), sceneObject->transform->getUp().toVec3());
 }
@@ -10,6 +10,11 @@ glm::mat4 CameraComponent::getViewMatrix()
 glm::mat4 CameraComponent::getPerspectiveMatrix(float ratio)
 {
 	return glm::perspective(glm::radians(fov), ratio, near, far);
+}
+
+Vector3 CameraComponent::getPosition()
+{
+	return sceneObject->transform->getPosition(false);
 }
 
 void CameraComponent::Update()

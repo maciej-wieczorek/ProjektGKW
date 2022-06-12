@@ -58,8 +58,9 @@ int main() {
     bath1.setModel(&bathModel);
     bath1.setShader(Shader::pink);
 
+    SceneObject camera("camera", &chair1);
     CameraComponent* myCamera = new CameraComponent();
-    chair2.addComponent((ComponentScript*)myCamera);
+    camera.addComponent((ComponentScript*)myCamera);
 
     CameraRenderer cameraRenderer(mainWindow.getWindow(), myCamera, &scene);
 
