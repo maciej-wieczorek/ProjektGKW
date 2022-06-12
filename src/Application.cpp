@@ -46,33 +46,19 @@ int main() {
 
     Model chairModel(ROOT_DIR "res/models/chair/chair.obj");
 
-<<<<<<< HEAD
-    //SceneObject cube2("teapot1", &cubeObj, Mesh::teapot, (Material*) new TexturedMaterial(new Texture("E:/bricks.png")));
-    SceneObject cube3("cube3", &cubeObj, Mesh::cube, (Material*) new TexturedMaterial(Texture::bricks));
-    SceneObject cameraObj("camera", &cubeObj, NULL, NULL);
-    cameraObj.transform->moveTo(Vector3(0, 0, 8));
-    //SceneObject cube5("cube5", &cube3, Mesh::cube, (Material*) new ColoredMaterial(Color::red));
-    //SceneObject cube6("cube6", &cube3, Mesh::cube, (Material*) new ColoredMaterial(Color::blue));
-=======
     Scene scene;
     SceneObject chair1("root");
     chair1.setModel(&chairModel);
     chair1.setShader(Shader::pink);
     scene.setRootObject(&chair1);
->>>>>>> 14f8033acba621edb5c13a0e556894b6a6b81baf
 
     SceneObject chair2("chair2", &chair1);
     chair2.setModel(&chairModel);
     chair2.setShader(Shader::pink);
 
     CameraComponent* myCamera = new CameraComponent();
-    cameraObj.addComponent((ComponentScript*)myCamera);
+    chair2.addComponent((ComponentScript*)myCamera);
 
-    //ComponentScript* rotator = (ComponentScript*)(new RotatorComponent());
-    //cube5.addComponent(rotator);
-
-    //Camera camera(glm::vec3(0.0f, 0.0f, 10.0f));
-    //CameraRenderer cameraRenderer(mainWindow.getWindow(), &camera, &scene);
     CameraRenderer cameraRenderer(mainWindow.getWindow(), myCamera, &scene);
 
     float value = 1;
