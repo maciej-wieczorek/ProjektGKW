@@ -7,6 +7,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "Texture.h"
+#include "Color.h"
+#include "Material.h"
 #include "Shader.h"
 
 struct Vertex {
@@ -15,22 +18,28 @@ struct Vertex {
     glm::vec2 texCoords;
 };
 
-struct Texture {
-    unsigned int id;
-    std::string type;
-    std::string path;
-};
-
 class Mesh {
 public:
-    Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
+    enum class DrawType
+    {
+        Color = 0, Material, Texture
+    };
+
+
+    Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, DrawType drawType = DrawType::Color);
 
     void draw(Shader& shader);
 
     // mesh Data
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
-    std::vector<Texture> textures;
+
+    Color* color;
+    Material* material;
+    Texture* texture;
+
+    DrawType drawType;
+
     unsigned int VAO;
 
 private:

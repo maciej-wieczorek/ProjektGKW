@@ -40,6 +40,8 @@ void CameraRenderer::renderObject(const glm::mat4& V, const glm::mat4& P, SceneO
     Shader* shader = object->getShader();
     shader->use();
 
+    shader->setVec3("viewPos", camera->Position);
+
     glm::mat4 M = object->getTransform()->getMatrix();
 
     shader->setMat4("P", P); //TODO: change to work with pointer (glm::f32*)
