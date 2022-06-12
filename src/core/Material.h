@@ -1,16 +1,17 @@
 #pragma once
 
-#include <vector>;
-
-#include "Shader.h"
-#include "Mesh.h"
+#include <glm/vec3.hpp>
 
 class Material {
 public:
-	Shader* shader;
+	static Material* gold;
 
-	Material(Shader* shader);
-	Material();
+	static void initMaterials();
 
-	virtual void setUniforms() = 0;
+	Material(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float shininess);
+
+	glm::vec3 ambient;
+	glm::vec3 diffuse;
+	glm::vec3 specular;
+	float shininess;
 };

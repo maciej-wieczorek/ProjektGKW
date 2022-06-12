@@ -17,6 +17,7 @@ public:
 
 	glm::mat4 getViewMatrix();
 	glm::mat4 getPerspectiveMatrix(float ratio);
+	Vector3 getPosition();
 
 	void Update();
 };

@@ -42,7 +42,12 @@ void CameraRenderer::render()
 void CameraRenderer::renderObject(const glm::mat4& V, const glm::mat4& P, SceneObject* object)
 {  
     Shader* shader = object->getShader();
+    if (shader == nullptr)
+        return;
+
     shader->use();
+    Vector3 position = camera->getPosition();
+    shader->setVec3("viewPos", glm::vec3(position.x, position.y, position.z));
 
     glm::mat4 M = object->getTransform()->getMatrix();
 

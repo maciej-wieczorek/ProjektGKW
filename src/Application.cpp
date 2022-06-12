@@ -4,6 +4,7 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
+#include <stb_image.h>
 
 #include "ApplicationWindow.h";
 #include "ImGuiHandler.h"
@@ -44,7 +45,8 @@ int main() {
     Shader::initShaders();
     // Texture::initTextures();
 
-    Model chairModel(ROOT_DIR "res/models/chair/chair.obj");
+    Model chairModel(ROOT_DIR "res/models/chair.obj");
+    Model bathModel(ROOT_DIR "res/models/bath.obj");
 
     Scene scene;
     SceneObject chair1("root");
@@ -52,13 +54,15 @@ int main() {
     chair1.setShader(Shader::pink);
     scene.setRootObject(&chair1);
 
-    SceneObject chair2("camera", &chair1);
-    chair2.setModel(&chairModel);
-    chair2.setShader(Shader::pink);
+    SceneObject bath1("bath1", &chair1);
+    bath1.setModel(&bathModel);
+    bath1.setShader(Shader::pink);
 
+
+    SceneObject camera("camera", &chair1);
     CameraComponent* myCamera = new CameraComponent();
-    chair2.addComponent((ComponentScript*)myCamera);
-    chair2.transform->setPosition(Vector3(0, 0, 5), Transform::Space::GLOBAL);
+    camera.addComponent((ComponentScript*)myCamera);
+    camera.transform->setPosition(Vector3(0, 0, 5), Transform::Space::GLOBAL);
 
     SceneObject chair3("chair3", &chair1);
     chair3.setModel(&chairModel);

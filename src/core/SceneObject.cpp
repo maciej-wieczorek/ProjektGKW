@@ -15,6 +15,7 @@ SceneObject::SceneObject(std::string name, SceneObject* parent)
 	}
 	this->transform = new Transform(this, parentTransform);
 	this->model = nullptr;
+	this->shader = nullptr;
 
 	this->id = SceneObject::getNextId();
 }

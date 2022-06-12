@@ -1,39 +1,62 @@
 #include "Mesh.h"
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures) :
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, DrawType drawType) :
     vertices{ vertices },
     indices{ indices },
-    textures{ textures }
+    drawType{ drawType },
+    texture{ nullptr },
+    color{ new Color(1.0, 1.0, 1.0, 1.0) },
+    material{ nullptr }
 {
     setupMesh();
 }
 
 void Mesh::draw(Shader& shader)
 {
-    // bind appropriate textures
-    unsigned int diffuseNr = 1;
-    unsigned int specularNr = 1;
-    unsigned int normalNr = 1;
-    unsigned int heightNr = 1;
-    for (unsigned int i = 0; i < textures.size(); i++)
-    {
-        glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
-        // retrieve texture number (the N in diffuse_textureN)
-        std::string number;
-        std::string name = textures[i].type;
-        if (name == "texture_diffuse")
-            number = std::to_string(diffuseNr++);
-        else if (name == "texture_specular")
-            number = std::to_string(specularNr++); // transfer unsigned int to string
-        else if (name == "texture_normal")
-            number = std::to_string(normalNr++); // transfer unsigned int to string
-        else if (name == "texture_height")
-            number = std::to_string(heightNr++); // transfer unsigned int to string
+    // TEMP HARD VALUES
+    // ---------------------------------------------------------------------------------
+    shader.setInt("drawType", static_cast<int>(drawType));
+    shader.setVec3("dirLight.direction", glm::vec3(-0.2f, -1.0f, -0.3f));
+    shader.setVec3("dirLight.lightColor.ambient", glm::vec3(0.05f, 0.05f, 0.05f));
+    shader.setVec3("dirLight.lightColor.diffuse", glm::vec3(0.4f, 0.4f, 0.4f));
+    shader.setVec3("dirLight.lightColor.specular", glm::vec3(0.5f, 0.5f, 0.5f));
 
-        // now set the sampler to the correct texture unit
-        shader.setInt((name + number).c_str(), i);
-        // and finally bind the texture
-        glBindTexture(GL_TEXTURE_2D, textures[i].id);
+    shader.setInt("numOfPointLights", 1);
+    shader.setVec3("pointLights[0].position", glm::vec3(0.5f, 0.3f, -0.3f));
+    shader.setVec3("pointLights[0].lightColor.ambient", glm::vec3(0.05f, 0.05f, 0.05f));
+    shader.setVec3("pointLights[0].lightColor.diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
+    shader.setVec3("pointLights[0].lightColor.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+    shader.setFloat("pointLights[0].constant", 1.0f);
+    shader.setFloat("pointLights[0].linear", 0.09f);
+    shader.setFloat("pointLights[0].quadratic", 0.032f);
+
+    shader.setInt("numOfSpotLights", 0);
+
+    shader.setFloat("shininess", 32.0f);
+    //------------------------------------------------------------------------------------
+
+    switch (drawType)
+    {
+    case Mesh::DrawType::Color:
+        if (color)
+            shader.setVec3("color", glm::vec3(1.0, 0.0, 0.0));
+        break;
+    case Mesh::DrawType::Material:
+        if (material)
+        {
+            shader.setVec3("material.ambient", material->ambient);
+            shader.setVec3("material.diffuse", material->diffuse);
+            shader.setVec3("material.specular", material->specular);
+        }
+        break;
+    case Mesh::DrawType::Texture:
+        if (texture)
+        {
+            glActiveTexture(GL_TEXTURE0); // active texture unit before binding
+            shader.setInt("textureMaterial.diffuse", 0); // set the sampler to the correct texture unit
+            glBindTexture(GL_TEXTURE_2D, texture->textureID); // bind the texture
+        }
+        break;
     }
 
     // draw mesh
@@ -41,13 +64,8 @@ void Mesh::draw(Shader& shader)
     glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(indices.size()), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 
-    // unbind all textures
-    for (unsigned int i = 0; i < textures.size(); i++)
-    {
-        glActiveTexture(GL_TEXTURE0 + i);
-        glBindTexture(GL_TEXTURE_2D, 0);
-    }
-    glActiveTexture(0);
+    // unbind texture
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Mesh::setupMesh()
