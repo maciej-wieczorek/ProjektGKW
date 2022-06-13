@@ -1,9 +1,8 @@
 #include "Mesh.h"
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, DrawType drawType) :
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices) :
     vertices{ vertices },
-    indices{ indices },
-    drawType{ drawType }
+    indices{ indices }
 {
     setupMesh();
 }
@@ -12,7 +11,6 @@ void Mesh::draw(Shader& shader, ShadingInfo& shadingInfo)
 {
     // TEMP HARD VALUES
     // ---------------------------------------------------------------------------------
-    shader.setInt("drawType", static_cast<int>(drawType));
     shader.setVec3("dirLight.direction", glm::vec3(-0.2f, -1.0f, -0.3f));
     shader.setVec3("dirLight.lightColor.ambient", glm::vec3(0.05f, 0.05f, 0.05f));
     shader.setVec3("dirLight.lightColor.diffuse", glm::vec3(0.4f, 0.4f, 0.4f));
@@ -28,25 +26,26 @@ void Mesh::draw(Shader& shader, ShadingInfo& shadingInfo)
     shader.setFloat("pointLights[0].quadratic", 0.032f);
 
     shader.setInt("numOfSpotLights", 0);
-
-    shader.setFloat("shininess", shadingInfo.shininess);
     //------------------------------------------------------------------------------------
+    shader.setInt("drawType", static_cast<int>(shadingInfo.drawType));
 
-    switch (drawType)
+    switch (shadingInfo.drawType)
     {
-    case Mesh::DrawType::Color:
+    case DrawType::Color:
         shader.setVec3("color", shadingInfo.color.getVec3());
         shader.setFloat("alpha", shadingInfo.color.vec4.w);
+        shader.setFloat("shininess", shadingInfo.shininess);
         break;
-    case Mesh::DrawType::Material:
+    case DrawType::Material:
         shader.setVec3("material.ambient", shadingInfo.material->ambient);
         shader.setVec3("material.diffuse", shadingInfo.material->diffuse);
         shader.setVec3("material.specular", shadingInfo.material->specular);
         break;
-    case Mesh::DrawType::Texture:
+    case DrawType::Texture:
         glActiveTexture(GL_TEXTURE0); // active texture unit before binding
         shader.setInt("textureMaterial.diffuse", 0); // set the sampler to the correct texture unit
         glBindTexture(GL_TEXTURE_2D, shadingInfo.texture->textureID); // bind the texture
+        shader.setFloat("shininess", shadingInfo.shininess);
         break;
     }
 

@@ -48,7 +48,9 @@ int main() {
     stbi_set_flip_vertically_on_load(true);
 
     Shader::initShaders();
-    // Texture::initTextures();
+
+    Material::initMaterials();
+    Texture::initTextures();
 
     Model chairModel(ROOT_DIR "res/models/chair.obj");
     Model bathModel(ROOT_DIR "res/models/bath.obj");
@@ -115,9 +117,6 @@ int main() {
 
         materialEditorWindow.bindTransform(hierarchyEditorWindow.getSelected());
         materialEditorWindow.draw();
-
-        bool show_demo_window = true;
-        ImGui::ShowDemoWindow(&show_demo_window);
 
         ImGuiHandler::render();
 

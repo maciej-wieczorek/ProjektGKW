@@ -28,6 +28,8 @@ void MaterialEditorWindow::draw()
         {
             if (ImGui::BeginTabItem("Color"))
             {
+                shadingInfo.drawType = DrawType::Color;
+
                 static bool alpha_preview = true;
                 static bool alpha_half_preview = false;
                 static bool drag_and_drop = true;
@@ -56,11 +58,13 @@ void MaterialEditorWindow::draw()
             }
             if (ImGui::BeginTabItem("Material"))
             {
+                shadingInfo.drawType = DrawType::Material;
                 ImGui::Text("Material item");
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem("Texture"))
             {
+                shadingInfo.drawType = DrawType::Texture;
                 ImGui::Text("Texture item");
                 ImGui::EndTabItem();
             }

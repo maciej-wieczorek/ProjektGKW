@@ -12,12 +12,18 @@
 #include "Material.h"
 #include "Texture.h"
 
+enum class DrawType
+{
+    Color = 0, Material, Texture
+};
+
 struct ShadingInfo
 {
     Color color;
     Material* material;
     Texture* texture;
     float shininess;
+    DrawType drawType;
 };
 
 struct Vertex {
@@ -28,21 +34,13 @@ struct Vertex {
 
 class Mesh {
 public:
-    enum class DrawType
-    {
-        Color = 0, Material, Texture
-    };
-
-
-    Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, DrawType drawType = DrawType::Color);
+    Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
 
     void draw(Shader& shader, ShadingInfo& shadingInfo);
 
     // mesh Data
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
-
-    DrawType drawType;
 
     unsigned int VAO;
 
