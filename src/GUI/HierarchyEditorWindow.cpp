@@ -19,6 +19,7 @@ void HierarchyEditorWindow::draw()
 {
     ImGui::Begin(title.c_str());
 
+    ImGui::SetNextItemOpen(true, ImGuiCond_Once);
     Transform* newSelection = drawHierarchy(root);
 
     if (newSelection != NULL) {

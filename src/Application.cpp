@@ -11,6 +11,7 @@
 #include "GUI/TransformEditorWindow.h"
 #include "GUI/HierarchyEditorWindow.h"
 #include "GUI/MaterialEditorWindow.h"
+#include "GUI/ObjectInstantiateWindow.h"
 #include "Camera.h"
 #include "CameraRenderer.h"
 #include "Scene.h"
@@ -54,40 +55,36 @@ int main() {
 
     Model chairModel(ROOT_DIR "res/models/chair.obj");
     Model bathModel(ROOT_DIR "res/models/bath.obj");
+    Model aquariumModel(ROOT_DIR "res/models/aquarium.obj");
+    Model bookcaseModel(ROOT_DIR "res/models/bookcase.obj");
+    Model chestModel(ROOT_DIR "res/models/chest.obj");
 
     Scene scene;
-    SceneObject chair1("root");
-    chair1.setModel(&chairModel);
-    chair1.setShader(Shader::pink);
-    scene.setRootObject(&chair1);
+    scene.setBackgroundColor(Color(0.1, 0.1, 0.1, 1));
+    SceneObject root("root");
+    scene.setRootObject(&root);
 
-    SceneObject bath1("bath1", &chair1);
-    bath1.setModel(&bathModel);
-    bath1.setShader(Shader::pink);
-
-    SceneObject camera("camera", &chair1);
+    SceneObject camera("camera", &root);
     CameraComponent* myCamera = new CameraComponent();
     camera.addComponent(dynamic_cast<ComponentScript*>(myCamera));
-    camera.transform->setPosition(Vector3(0, 0, 5), Transform::Space::GLOBAL);
-
-    SceneObject chair3("chair3", &chair1);
-    chair3.setModel(&chairModel);
-    chair3.setShader(Shader::pink);
-
-    SceneObject chair4("chair4", &chair3);
-    chair4.setModel(&chairModel);
-    chair4.setShader(Shader::pink);
-
-    SceneObject chair5("chair5", &chair3);
-    chair5.setModel(&chairModel);
-    chair5.setShader(Shader::pink);
+    camera.transform->setPosition(Vector3(0, 0, 15), Transform::Space::GLOBAL);
 
     CameraRenderer cameraRenderer(mainWindow.getWindow(), myCamera, &scene);
 
     float value = 1;
     HierarchyEditorWindow hierarchyEditorWindow = HierarchyEditorWindow("Hierarchy", scene.getRootObject()->transform);
-    TransformEditorWindow transformEditorWindow = TransformEditorWindow("Transform", chair1.getTransform());
-    MaterialEditorWindow materialEditorWindow = MaterialEditorWindow("Color, Material, Texture", chair1.getTransform());
+    TransformEditorWindow transformEditorWindow = TransformEditorWindow("Transform", root.getTransform());
+    MaterialEditorWindow materialEditorWindow = MaterialEditorWindow("Color, Material, Texture", root.getTransform());
+    ObjectInstantiateWindow objectInstantiateWindow = ObjectInstantiateWindow("Meble", &scene,  &hierarchyEditorWindow);
+
+    std::vector<std::pair<Model*, std::string>> models = {
+        {&chairModel, "Krzeslo"},
+        {&bathModel, "Wanna"},
+        {&aquariumModel, "akwarium"},
+        {&bookcaseModel, "biblioteczka"},
+        {&chestModel, "skrzynia"}
+    };
+    objectInstantiateWindow.setModelsList(models);
 
     while (!mainWindow.shouldClose()) {
         //PRE-UPDATE
@@ -116,6 +113,8 @@ int main() {
 
         materialEditorWindow.bindTransform(hierarchyEditorWindow.getSelected());
         materialEditorWindow.draw();
+
+        objectInstantiateWindow.draw();
 
         ImGuiHandler::render();
 

@@ -40,9 +40,9 @@ void TransformEditorWindow::draw()
 
         //readValues();
 
-        ImGui::DragFloat3("position", position, 0.1, -15, 15);
+        ImGui::DragFloat3("position", position, 0.1, -FLT_MAX, +FLT_MAX);
         ImGui::DragFloat3("rotation", rotation, 1, -360, 360);
-        ImGui::DragFloat3("scale", scale, 0.1, -5, 5);
+        ImGui::DragFloat3("scale", scale, 0.1, -FLT_MAX, +FLT_MAX);
 
         applyValues();
     }

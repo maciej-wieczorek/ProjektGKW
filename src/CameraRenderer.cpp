@@ -14,7 +14,8 @@ void CameraRenderer::render()
     glfwGetFramebufferSize(window, &frame_width, &frame_height);
 
     glViewport(0, 0, frame_width, frame_height);
-    glClearColor(0.1, 0.1, 0.1, 1);
+    Color backgroundColor = scene->getbackgroundColor();
+    glClearColor(backgroundColor.vec4.r, backgroundColor.vec4.g, backgroundColor.vec4.b, backgroundColor.vec4.a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     /*glm::mat4 V = camera->GetViewMatrix();
@@ -47,7 +48,7 @@ void CameraRenderer::renderObject(const glm::mat4& V, const glm::mat4& P, SceneO
 
     shader->use();
     Vector3 position = camera->getPosition();
-    shader->setVec3("viewPos", glm::vec3(position.x, position.y, position.z));
+    shader->setVec3("viewPos", position.toVec3());
 
     glm::mat4 M = object->getTransform()->getMatrix();
 

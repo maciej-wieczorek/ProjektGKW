@@ -23,6 +23,16 @@ void Scene::setRootObject(SceneObject* root)
 	sceneRoot = root;
 }
 
+void Scene::setBackgroundColor(Color color)
+{
+    backgroundColor = color;
+}
+
+Color Scene::getbackgroundColor()
+{
+    return backgroundColor;
+}
+
 void Scene::Update()
 {
     std::stack<SceneObject*> updateStack;

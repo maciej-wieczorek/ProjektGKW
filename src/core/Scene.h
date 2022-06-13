@@ -17,6 +17,9 @@ public:
 	SceneObject* getRootObject();
 	void setRootObject(SceneObject* root);
 
+	void setBackgroundColor(Color color);
+	Color getbackgroundColor();
+
 	void Update();
 private:
 	unsigned int nextId = 0;
@@ -24,5 +27,5 @@ private:
 	unsigned int id;
 	std::string name;
 	SceneObject* sceneRoot;
-	Color backgroundColor;
+	Color backgroundColor = Color::black;
 };
