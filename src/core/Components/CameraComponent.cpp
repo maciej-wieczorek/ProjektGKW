@@ -4,7 +4,7 @@ glm::mat4 CameraComponent::getViewMatrix()
 {
 	Vector3 position = getPosition();
 
-	return glm::lookAt(position.toVec3(), (position - sceneObject->transform->getForward()).toVec3(), sceneObject->transform->getUp().toVec3());
+	return glm::lookAt(position.toVec3(), (position - sceneObject->transform->getForward(Transform::Space::GLOBAL)).toVec3(), sceneObject->transform->getUp(Transform::Space::GLOBAL).toVec3());
 }
 
 glm::mat4 CameraComponent::getPerspectiveMatrix(float ratio)

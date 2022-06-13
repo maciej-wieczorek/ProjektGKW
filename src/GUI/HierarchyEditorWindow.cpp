@@ -27,7 +27,7 @@ void HierarchyEditorWindow::draw()
 
     if (selected != NULL) {
         ImGui::Text("Selected: %s", selected->getSceneObject()->getName().c_str());
-        ImGui::Text("forward: %f %f %f", selected->getForward().x, selected->getForward().y, selected->getForward().z);
+        ImGui::Text("forward: %s", selected->getForward(Transform::Space::GLOBAL).toString().c_str());
     }
 
     ImGui::End();

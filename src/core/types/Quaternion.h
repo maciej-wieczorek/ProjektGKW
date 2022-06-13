@@ -21,5 +21,7 @@ public:
 	void setEuler(float x, float y, float z); //in degrees
 	Vector3 getEuler(); //in degrees
 
+	void rotateAround(Vector3 axis, float angle);
+
 	glm::mat4 getRotationMatrix();
 };

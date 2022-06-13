@@ -13,11 +13,17 @@ TransformEditorWindow::TransformEditorWindow(std::string title) : TransformEdito
 
 void TransformEditorWindow::bindTransform(Transform* transform)
 {
+    if (transform == this->transform) {
+        return;
+    }
+
     this->transform = transform;
 
     if (transform == NULL) {
         return;
     }
+
+    readValues();
 }
 
 void TransformEditorWindow::draw()
@@ -29,9 +35,10 @@ void TransformEditorWindow::draw()
         std::string spaceLabel = (space == Transform::Space::GLOBAL) ? "Global" : "Local";
         if (ImGui::Button(spaceLabel.c_str())) {
             space = (space == Transform::Space::GLOBAL) ? Transform::Space::LOCAL : Transform::Space::GLOBAL;
+            readValues();
         }
 
-        readValues();
+        //readValues();
 
         ImGui::DragFloat3("position", position, 0.1, -15, 15);
         ImGui::DragFloat3("rotation", rotation, 1, -360, 360);
