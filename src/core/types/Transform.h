@@ -47,9 +47,11 @@ public:
 	void setRotation(Quaternion rotation, Space space);
 	void setScale(Vector3 scale, Space space);
 
-	Vector3 getForward();
-	Vector3 getUp();
-	Vector3 getRight();
+	void rotateAround(Vector3 axis, float angles, Space space);
+
+	Vector3 getForward(Space space);
+	Vector3 getUp(Space space);
+	Vector3 getRight(Space space);
 
 	void move(Vector3 movement, Space space);
 	void moveTo(Vector3 position, Space space);

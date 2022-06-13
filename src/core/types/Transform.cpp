@@ -163,22 +163,48 @@ void Transform::setScale(Vector3 scale, Space space)
 	}
 }
 
-Vector3 Transform::getForward()
+void Transform::rotateAround(Vector3 axis, float angles, Space space)
 {
-	glm::vec4 forw = getMatrix() * glm::vec4(Vector3::forward.x, Vector3::forward.y, Vector3::forward.z, 0);
-	return Vector3(forw.x, forw.y, forw.z);
+	if (space == Space::LOCAL) {
+		rotation.rotateAround(axis, angles);
+	}
+	else {
+		glm::vec4 axisLocal = glm::inverse(getParentMatrix()) * glm::vec4(axis.x, axis.y, axis.z, 0);
+		rotation.rotateAround(Vector3(axisLocal.x, axisLocal.y, axisLocal.z), angles);
+	}
 }
 
-Vector3 Transform::getUp()
+Vector3 Transform::getForward(Space space)
 {
-	glm::vec4 up = getMatrix() * glm::vec4(Vector3::up.x, Vector3::up.y, Vector3::up.z, 0);
-	return Vector3(up.x, up.y, up.z);
+	if (space == Space::LOCAL) {
+		return Vector3::forward;
+	}
+	else {
+		glm::vec4 forw = getMatrix() * glm::vec4(Vector3::forward.x, Vector3::forward.y, Vector3::forward.z, 0);
+		return Vector3(forw.x, forw.y, forw.z);
+	}
 }
 
-Vector3 Transform::getRight()
+Vector3 Transform::getUp(Space space)
 {
-	glm::vec4 right = getMatrix() * glm::vec4(Vector3::right.x, Vector3::right.y, Vector3::right.z, 0);
-	return Vector3(right.x, right.y, right.z);
+	if (space == Space::LOCAL) {
+		return Vector3::up;
+	}
+	else {
+		glm::vec4 up = getMatrix() * glm::vec4(Vector3::up.x, Vector3::up.y, Vector3::up.z, 0);
+		return Vector3(up.x, up.y, up.z);
+	}
+}
+
+Vector3 Transform::getRight(Space space)
+{
+	if (space == Space::LOCAL) {
+		return Vector3::right;
+	}
+	else {
+		glm::vec4 right = getMatrix() * glm::vec4(Vector3::right.x, Vector3::right.y, Vector3::right.z, 0);
+		return Vector3(right.x, right.y, right.z);
+	}
 }
 
 void Transform::move(Vector3 movement, Space space)
