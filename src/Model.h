@@ -27,6 +27,8 @@ public:
     // constructor for a model consisting of a single mesh 
     Model(Mesh&& mesh);
 
+    std::vector<Mesh>* getMeshes();
+
     // draws the model, and thus all its meshes
     void draw(Shader& shader);
 

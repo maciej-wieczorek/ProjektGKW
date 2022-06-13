@@ -10,6 +10,7 @@
 #include "ImGuiHandler.h"
 #include "GUI/TransformEditorWindow.h"
 #include "GUI/HierarchyEditorWindow.h"
+#include "GUI/MaterialEditorWindow.h"
 #include "Camera.h"
 #include "CameraRenderer.h"
 #include "Scene.h"
@@ -36,6 +37,10 @@ int main() {
     ApplicationWindow mainWindow(1280, 720, "Projekt GKiW");
     mainWindow.setActive();
     loadGlad();
+    // enable alpha blending
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+
     ImGuiHandler::init();
 
     ImGuiHandler::setContext(mainWindow.getWindow(), GLSL_VERSION);
@@ -81,6 +86,7 @@ int main() {
     float value = 1;
     HierarchyEditorWindow hierarchyEditorWindow = HierarchyEditorWindow("Hierarchy", scene.getRootObject()->transform);
     TransformEditorWindow transformEditorWindow = TransformEditorWindow("Transform", chair1.getTransform());
+    MaterialEditorWindow materialEditorWindow = MaterialEditorWindow("Color, Material, Texture", chair1.getTransform());
 
     while (!mainWindow.shouldClose()) {
         //PRE-UPDATE
@@ -106,6 +112,12 @@ int main() {
         hierarchyEditorWindow.draw();
         transformEditorWindow.bindTransform(hierarchyEditorWindow.getSelected());
         transformEditorWindow.draw();
+
+        materialEditorWindow.bindTransform(hierarchyEditorWindow.getSelected());
+        materialEditorWindow.draw();
+
+        bool show_demo_window = true;
+        ImGui::ShowDemoWindow(&show_demo_window);
 
         ImGuiHandler::render();
 

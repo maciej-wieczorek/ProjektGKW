@@ -37,6 +37,7 @@ public:
     Color* color;
     Material* material;
     Texture* texture;
+    float shininess;
 
     DrawType drawType;
 

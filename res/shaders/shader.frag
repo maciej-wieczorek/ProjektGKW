@@ -67,6 +67,7 @@ uniform float shininess;
 
 uniform int drawType; // 0 - color, 1 - material, 2 - texture
 uniform vec3 color;
+uniform float alpha;
 uniform Material material;
 uniform TextureMaterial textureMaterial;
 
@@ -91,7 +92,7 @@ void main()
     for(int i = 0; i < numOfSpotLights; i++)
         result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
     
-    FragColor = vec4(result, 1.0);
+    FragColor = vec4(result, alpha);
 }
 
 vec3 CalcResult(LightColor light, float diff, float spec)

@@ -6,7 +6,8 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, Draw
     drawType{ drawType },
     texture{ nullptr },
     color{ new Color(1.0, 1.0, 1.0, 1.0) },
-    material{ nullptr }
+    material{ nullptr },
+    shininess{ 32.0f }
 {
     setupMesh();
 }
@@ -32,14 +33,17 @@ void Mesh::draw(Shader& shader)
 
     shader.setInt("numOfSpotLights", 0);
 
-    shader.setFloat("shininess", 32.0f);
+    shader.setFloat("shininess", shininess);
     //------------------------------------------------------------------------------------
 
     switch (drawType)
     {
     case Mesh::DrawType::Color:
         if (color)
-            shader.setVec3("color", glm::vec3(1.0, 0.0, 0.0));
+        {
+            shader.setVec3("color", glm::vec3(*color->r, *color->g, *color->b));
+            shader.setFloat("alpha", *color->a);
+        }
         break;
     case Mesh::DrawType::Material:
         if (material)

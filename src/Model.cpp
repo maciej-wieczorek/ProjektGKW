@@ -12,6 +12,11 @@ Model::Model(Mesh&& mesh) :
     meshes.push_back(std::move(mesh));
 }
 
+std::vector<Mesh>* Model::getMeshes()
+{
+    return &meshes;
+}
+
 void Model::draw(Shader& shader)
 {
     for (unsigned int i = 0; i < meshes.size(); i++)
