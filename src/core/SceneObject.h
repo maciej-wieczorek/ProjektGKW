@@ -28,6 +28,7 @@ public:
 	void setModel(Model* model);
 	Shader* getShader();
 	void setShader(Shader* shader);
+	ShadingInfo& getShadingInfo();
 
 	void addComponent(ComponentScript* component);
 
@@ -40,4 +41,6 @@ private:
 	std::forward_list<ComponentScript*> components;
 	Model* model;
 	Shader* shader;
+	ShadingInfo shadingInfo;
+	
 };

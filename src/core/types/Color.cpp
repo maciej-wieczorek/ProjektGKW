@@ -17,3 +17,8 @@ Color::Color(float r, float g, float b, float a)
 Color::Color()
 {
 }
+
+glm::vec3 Color::getVec3()
+{
+	return glm::vec3(vec4.r, vec4.g, vec4.b);
+}

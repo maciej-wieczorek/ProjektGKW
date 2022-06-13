@@ -8,10 +8,6 @@
 
 #include "GuiWindow.h"
 #include "Transform.h"
-#include "Color.h"
-#include "Material.h"
-#include "Texture.h"
-#include "Mesh.h"
 
 class MaterialEditorWindow : GuiWindow
 {
@@ -22,11 +18,6 @@ public:
 private:
 	std::string title;
 	Transform* transform;
-
-	//Color color;
-	//Material material;
-	//Texture texture;
-	float shininess;
 
 	void readValues();
 	void applyValues();

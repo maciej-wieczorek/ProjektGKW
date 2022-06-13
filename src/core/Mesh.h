@@ -7,10 +7,18 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Texture.h"
+#include "Shader.h"
 #include "Color.h"
 #include "Material.h"
-#include "Shader.h"
+#include "Texture.h"
+
+struct ShadingInfo
+{
+    Color color;
+    Material* material;
+    Texture* texture;
+    float shininess;
+};
 
 struct Vertex {
     glm::vec3 position;
@@ -28,16 +36,11 @@ public:
 
     Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, DrawType drawType = DrawType::Color);
 
-    void draw(Shader& shader);
+    void draw(Shader& shader, ShadingInfo& shadingInfo);
 
     // mesh Data
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
-
-    Color* color;
-    Material* material;
-    Texture* texture;
-    float shininess;
 
     DrawType drawType;
 

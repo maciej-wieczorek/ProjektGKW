@@ -6,7 +6,8 @@ unsigned int SceneObject::getNextId() {
 	return nextId++;
 }
 
-SceneObject::SceneObject(std::string name, SceneObject* parent)
+SceneObject::SceneObject(std::string name, SceneObject* parent) :
+	shadingInfo{ Color::white, Material::gold, Texture::bricks, 32.0f }
 {
 	this->name = name;
 	Transform* parentTransform = NULL;
@@ -61,6 +62,11 @@ Shader* SceneObject::getShader()
 void SceneObject::setShader(Shader* shader)
 {
 	this->shader = shader;
+}
+
+ShadingInfo& SceneObject::getShadingInfo()
+{
+	return shadingInfo;
 }
 
 void SceneObject::addComponent(ComponentScript* component)

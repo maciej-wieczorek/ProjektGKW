@@ -1,10 +1,12 @@
 #include "Texture.h"
 #include "stb_image.h"
+#include "helpers/RootDir.h"
 
 Texture* Texture::bricks;
+Texture* Texture::none;
 
 void Texture::initTextures(){
-	bricks = new Texture("E:/bricks.png");
+	bricks = new Texture(ROOT_DIR "res/textures/bricks.png");
 }
 
 Texture::Texture(std::string filePath) :

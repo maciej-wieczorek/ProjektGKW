@@ -55,5 +55,5 @@ void CameraRenderer::renderObject(const glm::mat4& V, const glm::mat4& P, SceneO
     shader->setMat4("V", V);
     shader->setMat4("M", M);
 
-    object->getModel()->draw(*shader);
+    object->getModel()->draw(*shader, object->getShadingInfo());
 }

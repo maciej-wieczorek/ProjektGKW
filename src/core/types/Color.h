@@ -12,11 +12,8 @@ public:
 
 	glm::vec4 vec4 = glm::vec4(1, 1, 1, 1);
 
-	float* r = &vec4[0];
-	float* g = &vec4[1];
-	float* b = &vec4[2];
-	float* a = &vec4[3];
-
 	Color(float r, float g, float b, float a);
 	Color();
+
+	glm::vec3 getVec3();
 };

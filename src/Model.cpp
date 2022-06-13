@@ -17,10 +17,10 @@ std::vector<Mesh>* Model::getMeshes()
     return &meshes;
 }
 
-void Model::draw(Shader& shader)
+void Model::draw(Shader& shader, ShadingInfo& shadingInfo)
 {
     for (unsigned int i = 0; i < meshes.size(); i++)
-        meshes[i].draw(shader);
+        meshes[i].draw(shader, shadingInfo);
 }
 
 void Model::loadModel(std::string const& path)

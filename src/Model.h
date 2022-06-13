@@ -15,7 +15,6 @@
 #include <assimp/postprocess.h>
 
 #include "Mesh.h"
-#include "Shader.h"
 
 class Model
 {
@@ -30,7 +29,7 @@ public:
     std::vector<Mesh>* getMeshes();
 
     // draws the model, and thus all its meshes
-    void draw(Shader& shader);
+    void draw(Shader& shader, ShadingInfo& shadingInfo);
 
 private:
     // loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.

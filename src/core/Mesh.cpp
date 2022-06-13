@@ -3,16 +3,12 @@
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, DrawType drawType) :
     vertices{ vertices },
     indices{ indices },
-    drawType{ drawType },
-    texture{ nullptr },
-    color{ new Color(1.0, 1.0, 1.0, 1.0) },
-    material{ nullptr },
-    shininess{ 32.0f }
+    drawType{ drawType }
 {
     setupMesh();
 }
 
-void Mesh::draw(Shader& shader)
+void Mesh::draw(Shader& shader, ShadingInfo& shadingInfo)
 {
     // TEMP HARD VALUES
     // ---------------------------------------------------------------------------------
@@ -33,33 +29,24 @@ void Mesh::draw(Shader& shader)
 
     shader.setInt("numOfSpotLights", 0);
 
-    shader.setFloat("shininess", shininess);
+    shader.setFloat("shininess", shadingInfo.shininess);
     //------------------------------------------------------------------------------------
 
     switch (drawType)
     {
     case Mesh::DrawType::Color:
-        if (color)
-        {
-            shader.setVec3("color", glm::vec3(*color->r, *color->g, *color->b));
-            shader.setFloat("alpha", *color->a);
-        }
+        shader.setVec3("color", shadingInfo.color.getVec3());
+        shader.setFloat("alpha", shadingInfo.color.vec4.w);
         break;
     case Mesh::DrawType::Material:
-        if (material)
-        {
-            shader.setVec3("material.ambient", material->ambient);
-            shader.setVec3("material.diffuse", material->diffuse);
-            shader.setVec3("material.specular", material->specular);
-        }
+        shader.setVec3("material.ambient", shadingInfo.material->ambient);
+        shader.setVec3("material.diffuse", shadingInfo.material->diffuse);
+        shader.setVec3("material.specular", shadingInfo.material->specular);
         break;
     case Mesh::DrawType::Texture:
-        if (texture)
-        {
-            glActiveTexture(GL_TEXTURE0); // active texture unit before binding
-            shader.setInt("textureMaterial.diffuse", 0); // set the sampler to the correct texture unit
-            glBindTexture(GL_TEXTURE_2D, texture->textureID); // bind the texture
-        }
+        glActiveTexture(GL_TEXTURE0); // active texture unit before binding
+        shader.setInt("textureMaterial.diffuse", 0); // set the sampler to the correct texture unit
+        glBindTexture(GL_TEXTURE_2D, shadingInfo.texture->textureID); // bind the texture
         break;
     }
 

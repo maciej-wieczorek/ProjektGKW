@@ -9,6 +9,7 @@
 class Texture {
 public:
 	static Texture* bricks;
+	static Texture* none;
 
 	static void initTextures();
 
