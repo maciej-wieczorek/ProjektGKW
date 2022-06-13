@@ -59,7 +59,25 @@ void MaterialEditorWindow::draw()
             if (ImGui::BeginTabItem("Material"))
             {
                 shadingInfo.drawType = DrawType::Material;
-                ImGui::Text("Material item");
+                static int item_current_idx = 0;
+                if (ImGui::BeginListBox("Materials"))
+                {
+                    for (int i = 0; i < Material::materials.size(); i++)
+                    {
+                        const bool is_selected = (item_current_idx == i);
+                        if (ImGui::Selectable(Material::materials[i]->name.c_str(), is_selected))
+                            item_current_idx = i;
+
+                        if (is_selected)
+                        {
+                            ImGui::SetItemDefaultFocus();
+                            shadingInfo.material = Material::materials[i];
+                        }
+                         
+                    }
+                ImGui::EndListBox();
+                }
+
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem("Texture"))
