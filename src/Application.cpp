@@ -104,9 +104,11 @@ int main() {
         mainWindow.beginFrame();
         ImGuiHandler::startFrame();
 
+        /*/
         bool show_demo_window = true;
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
+        /*/
 
         hierarchyEditorWindow.draw();
         transformEditorWindow.bindTransform(hierarchyEditorWindow.getSelected());
