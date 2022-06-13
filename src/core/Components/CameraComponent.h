@@ -8,7 +8,7 @@
 
 #include "../ComponentScript.h"
 
-class CameraComponent : ComponentScript
+class CameraComponent : public ComponentScript
 {
 public:
 	float fov = 45.0f;

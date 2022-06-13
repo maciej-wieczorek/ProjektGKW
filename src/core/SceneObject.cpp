@@ -71,6 +71,9 @@ ShadingInfo& SceneObject::getShadingInfo()
 
 void SceneObject::addComponent(ComponentScript* component)
 {
+	if (component == NULL) {
+		return;
+	}
 	component->setObject(this);
 	components.push_front(component);
 }

@@ -31,6 +31,7 @@ public:
 	ShadingInfo& getShadingInfo();
 
 	void addComponent(ComponentScript* component);
+	template<class T> T getComponent();
 
 	void Update();
 private:
@@ -44,3 +45,16 @@ private:
 	ShadingInfo shadingInfo;
 	
 };
+
+template<class T>
+inline T SceneObject::getComponent()
+{
+	T result = NULL;
+	for (ComponentScript* component : components) {
+		result = dynamic_cast<T>(component);
+		if (result != NULL) {
+			return result;
+		}
+	}
+	return NULL;
+}

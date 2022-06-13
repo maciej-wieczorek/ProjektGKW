@@ -16,7 +16,3 @@ Vector3 CameraComponent::getPosition()
 {
 	return sceneObject->transform->getPosition(Transform::Space::GLOBAL);
 }
-
-void CameraComponent::Update()
-{
-}

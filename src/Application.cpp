@@ -65,10 +65,9 @@ int main() {
     bath1.setModel(&bathModel);
     bath1.setShader(Shader::pink);
 
-
     SceneObject camera("camera", &chair1);
     CameraComponent* myCamera = new CameraComponent();
-    camera.addComponent((ComponentScript*)myCamera);
+    camera.addComponent(dynamic_cast<ComponentScript*>(myCamera));
     camera.transform->setPosition(Vector3(0, 0, 5), Transform::Space::GLOBAL);
 
     SceneObject chair3("chair3", &chair1);

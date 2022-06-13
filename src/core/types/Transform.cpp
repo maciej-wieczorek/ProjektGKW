@@ -169,7 +169,7 @@ void Transform::rotateAround(Vector3 axis, float angles, Space space)
 		rotation.rotateAround(axis, angles);
 	}
 	else {
-		glm::vec4 axisLocal = glm::inverse(getParentMatrix()) * glm::vec4(axis.x, axis.y, axis.z, 0);
+		glm::vec4 axisLocal = glm::inverse(getMatrix()) * glm::vec4(axis.x, axis.y, axis.z, 0);
 		rotation.rotateAround(Vector3(axisLocal.x, axisLocal.y, axisLocal.z), angles);
 	}
 }
