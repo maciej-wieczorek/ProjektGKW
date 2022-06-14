@@ -24,6 +24,9 @@ void ImGuiHandler::init() {
         style.WindowRounding = 0.0f;
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
+
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }
 
 void ImGuiHandler::setContext(GLFWwindow* window, const char* glsl_version)
