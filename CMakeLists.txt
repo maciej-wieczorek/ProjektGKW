@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 project(ProjektGKW)
 
+set(CMAKE_CXX_STANDARD 17)
+
 # Add .lib files
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 
