@@ -15,7 +15,7 @@ public:
     static Shader* simplest;
     static Shader* texturedLambert;
     static Shader* pink;
-    static void Shader::initShaders();
+    static void initShaders();
 
     Shader(const char* vertexPath, const char* fragmentPath);
 

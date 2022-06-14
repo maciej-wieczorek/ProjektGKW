@@ -22,8 +22,8 @@ enum class DrawType
 struct ShadingInfo
 {
     Color color;
-    Material* material;
-    Texture* texture;
+    int materialIndex;
+    int textureIndex;
     float shininess;
     DrawType drawType;
 };

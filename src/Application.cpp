@@ -51,7 +51,7 @@ int main() {
     Shader::initShaders();
 
     Material::initMaterials();
-    Texture::initTextures();
+    Texture::initTextures(ROOT_DIR "res/textures/");
 
     Model chairModel(ROOT_DIR "res/models/chair.obj");
     Model bathModel(ROOT_DIR "res/models/bath.obj");

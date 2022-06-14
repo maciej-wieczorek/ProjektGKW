@@ -7,7 +7,7 @@ unsigned int SceneObject::getNextId() {
 }
 
 SceneObject::SceneObject(std::string name, SceneObject* parent) :
-	shadingInfo{ Color::white, Material::gold, Texture::bricks, 32.0f }
+	shadingInfo{ Color::white, 0, 0, 32.0f }
 {
 	this->name = name;
 	Transform* parentTransform = NULL;

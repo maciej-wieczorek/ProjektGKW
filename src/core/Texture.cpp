@@ -1,19 +1,46 @@
+#include <filesystem>
+
 #include "Texture.h"
 #include "stb_image.h"
 #include "helpers/RootDir.h"
 
-Texture* Texture::bricks;
-Texture* Texture::none;
+namespace fs = std::filesystem;
 
-void Texture::initTextures(){
-	bricks = new Texture(ROOT_DIR "res/textures/bricks.png");
+std::vector<Texture*> Texture::textures{};
+
+void Texture::initTextures(std::string directory){
+	textures.push_back(new Texture(ROOT_DIR "res/textures/bricks.png", "bricks"));
+
+    // scan directory for textures
+    for (const auto& entry : fs::directory_iterator(directory))
+    {
+        const auto filenameStr = entry.path().filename().string();
+        if (entry.is_regular_file())
+        {
+            int findExt = filenameStr.find_last_of(".");
+            std::string ext = filenameStr.substr(findExt + 1);
+            if (ext == "png" || ext == "jpg")
+            {
+                std::string name = filenameStr.substr(0, findExt);
+                textures.push_back(new Texture(directory + filenameStr, name));
+            }
+        }
+    }
 }
 
-Texture::Texture(std::string filePath) :
-	filePath{ filePath },
-	textureID{}
+GLuint Texture::getID()
 {
-	loadTexture();
+    if (!isLoaded)
+        loadTexture();
+    return textureID;
+}
+
+Texture::Texture(std::string filePath, std::string name) :
+    filePath{ filePath },
+    isLoaded{ false },
+    name{ name },
+    textureID{ 0 }
+{
 }
 
 void Texture::loadTexture()
@@ -43,6 +70,7 @@ void Texture::loadTexture()
 
         glBindTexture(GL_TEXTURE_2D, 0);
         stbi_image_free(data);
+        isLoaded = true;
     }
     else
     {

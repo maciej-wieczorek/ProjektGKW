@@ -8,15 +8,18 @@
 
 class Texture {
 public:
-	static Texture* bricks;
-	static Texture* none;
+	static std::vector<Texture*> textures;
 
-	static void initTextures();
+	static void initTextures(std::string directory);
 
-	GLuint textureID;
-	Texture(std::string filePath);
+	GLuint getID();
+	std::string name;
+	
+	Texture(std::string filePath, std::string name = "");
 private:
 	std::string filePath;
+	bool isLoaded;
+	GLuint textureID;
 
 	void loadTexture();
 };
