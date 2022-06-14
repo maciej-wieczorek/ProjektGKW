@@ -12,6 +12,7 @@
 #include "GUI/HierarchyEditorWindow.h"
 #include "GUI/MaterialEditorWindow.h"
 #include "GUI/ObjectInstantiateWindow.h"
+#include "GUI/LightEditorWindow.h"
 #include "Camera.h"
 #include "CameraRenderer.h"
 #include "Scene.h"
@@ -70,6 +71,7 @@ int main() {
     camera.transform->setPosition(Vector3(0, 0, 15), Transform::Space::GLOBAL);
 
     SceneObject directionalLight("directional light", &root);
+    directionalLight.transform->setRotation(Quaternion(155, 0, 10), Transform::Space::GLOBAL);
     SceneObject pointLight("point light", &root);
 
     DirectionalLightComponent* dirLightC = new DirectionalLightComponent();
@@ -84,10 +86,11 @@ int main() {
     CameraRenderer cameraRenderer(mainWindow.getWindow(), myCamera, &scene);
 
     float value = 1;
-    HierarchyEditorWindow hierarchyEditorWindow = HierarchyEditorWindow("Hierarchy", scene.getRootObject()->transform);
+    HierarchyEditorWindow hierarchyEditorWindow = HierarchyEditorWindow("Scena", scene.getRootObject()->transform);
     TransformEditorWindow transformEditorWindow = TransformEditorWindow("Transform", root.getTransform());
-    MaterialEditorWindow materialEditorWindow = MaterialEditorWindow("Color, Material, Texture", root.getTransform());
+    MaterialEditorWindow materialEditorWindow = MaterialEditorWindow("Material", root.getTransform());
     ObjectInstantiateWindow objectInstantiateWindow = ObjectInstantiateWindow("Meble", &scene,  &hierarchyEditorWindow);
+    LightEditorWindow lightEditorWindow = LightEditorWindow("Oswietlenie");
 
     std::vector<std::pair<Model*, std::string>> models = {
         {&chairModel, "Krzeslo"},
@@ -127,6 +130,20 @@ int main() {
         materialEditorWindow.draw();
 
         objectInstantiateWindow.draw();
+
+        if (hierarchyEditorWindow.getSelected() != NULL) {
+            if (hierarchyEditorWindow.getSelected()->getSceneObject()->getComponent<DirectionalLightComponent*>() != NULL) {
+                lightEditorWindow.bindDirectional(hierarchyEditorWindow.getSelected()->getSceneObject()->getComponent<DirectionalLightComponent*>());
+            }
+            else if (hierarchyEditorWindow.getSelected()->getSceneObject()->getComponent<PointLightComponent*>() != NULL) {
+                lightEditorWindow.bindPoint(hierarchyEditorWindow.getSelected()->getSceneObject()->getComponent<PointLightComponent*>());
+            }
+        }
+        else {
+            lightEditorWindow.bindDirectional(NULL);
+        }
+        lightEditorWindow.draw();
+
 
         ImGuiHandler::render();
 
