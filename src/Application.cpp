@@ -53,11 +53,14 @@ int main() {
     Material::initMaterials();
     Texture::initTextures(ROOT_DIR "res/textures/");
 
+    Model bedModel(ROOT_DIR "res/models/bed.obj");
+    Model bookshelfModel(ROOT_DIR "res/models/bookshelf.obj");
     Model chairModel(ROOT_DIR "res/models/chair.obj");
-    Model bathModel(ROOT_DIR "res/models/bath.obj");
-    Model aquariumModel(ROOT_DIR "res/models/aquarium.obj");
-    Model bookcaseModel(ROOT_DIR "res/models/bookcase.obj");
-    Model chestModel(ROOT_DIR "res/models/chest.obj");
+    Model deskModel(ROOT_DIR "res/models/desk.obj");
+    Model drawerModel(ROOT_DIR "res/models/drawer.obj");
+    Model dresserModel(ROOT_DIR "res/models/dresser.obj");
+    Model stoolModel(ROOT_DIR "res/models/stool.obj");
+    Model tableModel(ROOT_DIR "res/models/table.obj");
 
     Scene scene;
     scene.setBackgroundColor(Color(0.1, 0.1, 0.1, 1));
@@ -92,11 +95,14 @@ int main() {
     LightEditorWindow lightEditorWindow = LightEditorWindow("Oswietlenie");
 
     std::vector<std::pair<Model*, std::string>> models = {
+        {&bedModel, "Lozko"},
+        {&bookshelfModel, "Polka na ksiazki"},
         {&chairModel, "Krzeslo"},
-        {&bathModel, "Wanna"},
-        {&aquariumModel, "akwarium"},
-        {&bookcaseModel, "biblioteczka"},
-        {&chestModel, "skrzynia"}
+        {&deskModel, "Biurko"},
+        {&drawerModel, "Szuflada"},
+        {&dresserModel, "Kredens"},
+        {&stoolModel, "Stolek"},
+        {&tableModel, "Stol"},
     };
     objectInstantiateWindow.setModelsList(models);
 
