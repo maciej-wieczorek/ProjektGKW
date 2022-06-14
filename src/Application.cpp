@@ -36,7 +36,7 @@ void loadGlad() {
 }
 
 int main() {
-    ApplicationWindow mainWindow(1280, 720, "Projekt GKiW");
+    ApplicationWindow mainWindow(0, 0, "Projekt GKiW", true);
     mainWindow.setActive();
     loadGlad();
     // enable alpha blending

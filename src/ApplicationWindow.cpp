@@ -1,6 +1,6 @@
 #include "ApplicationWindow.h"
 
-ApplicationWindow::ApplicationWindow(int width, int height, std::string title)
+ApplicationWindow::ApplicationWindow(int width, int height, std::string title, bool fullscreen)
 {
     //glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
@@ -11,10 +11,26 @@ ApplicationWindow::ApplicationWindow(int width, int height, std::string title)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
+    const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+    if (width == 0) {
+        width = mode->width;
+    }
+    if (height == 0) {
+        height = mode->height;
+    }
 
-    window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+    if (fullscreen) {
+        window = glfwCreateWindow(width, width, title.c_str(), glfwGetPrimaryMonitor(), NULL);
+    }
+    else {
+        window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+    }
     if (window == NULL)
         exit(1);
+}
+ApplicationWindow::ApplicationWindow(int width, int height, std::string title) : ApplicationWindow(width, height, title, false)
+{
+
 }
 
 ApplicationWindow::ApplicationWindow(int width, int height) : ApplicationWindow(width, height, "Application")

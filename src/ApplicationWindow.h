@@ -8,6 +8,7 @@
 
 class ApplicationWindow {
 public:
+	ApplicationWindow(int width, int height, std::string title, bool fullscreen);
 	ApplicationWindow(int width, int height, std::string title);
 	ApplicationWindow(int width, int height);
 	ApplicationWindow();
