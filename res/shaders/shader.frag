@@ -73,6 +73,7 @@ uniform TextureMaterial textureMaterial;
 
 // function prototypes
 vec3 CalcResult(LightColor light, float diff, float spec);
+
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
