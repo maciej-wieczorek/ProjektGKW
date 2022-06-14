@@ -12,6 +12,8 @@
 #include "Material.h"
 #include "Texture.h"
 
+#include "LightStructs.h"
+
 enum class DrawType
 {
     Color = 0, Material, Texture
@@ -36,7 +38,7 @@ class Mesh {
 public:
     Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
 
-    void draw(Shader& shader, ShadingInfo& shadingInfo);
+    void draw(Shader& shader, ShadingInfo& shadingInfo, DirectionalLightS& directioanlLight, std::vector<PointLightS> pointLights);
 
     // mesh Data
     std::vector<Vertex> vertices;

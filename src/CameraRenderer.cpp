@@ -56,5 +56,23 @@ void CameraRenderer::renderObject(const glm::mat4& V, const glm::mat4& P, SceneO
     shader->setMat4("V", V);
     shader->setMat4("M", M);
 
-    object->getModel()->draw(*shader, object->getShadingInfo());
+    DirectionalLightS dl;
+    dl.direction = scene->getDirectionalLight(0)->getDirection();
+    dl.ambient = scene->getDirectionalLight(0)->ambient;
+    dl.specular = scene->getDirectionalLight(0)->specular;
+    dl.diffuse = scene->getDirectionalLight(0)->diffuse;
+
+    std::vector<PointLightS> pls;
+    for (int i = 0; i < scene->getPointLightsCount(); ++i) {
+        pls.push_back({
+            scene->getPointLight(i)->getPosition(),
+            scene->getPointLight(i)->ambient,
+            scene->getPointLight(i)->diffuse,
+            scene->getPointLight(i)->specular,
+            scene->getPointLight(i)->constant,
+            scene->getPointLight(i)->linear,
+            scene->getPointLight(i)->quadratic,
+            });
+    }
+    object->getModel()->draw(*shader, object->getShadingInfo(), dl, pls);
 }

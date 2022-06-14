@@ -1,26 +1,62 @@
 #include "Scene.h"
 
 Scene::Scene(std::string name, unsigned int id) {
-	this->name = name;
-	this->id = id;
+    this->name = name;
+    this->id = id;
 }
 
-Scene::Scene(std::string name) : Scene(name, 0){//TODO: change '0' to some id generator
+Scene::Scene(std::string name) : Scene(name, 0) {//TODO: change '0' to some id generator
 
 }
 
-Scene::Scene() : Scene("Scene"){//TODO add next numbers to name
+Scene::Scene() : Scene("Scene") {//TODO add next numbers to name
 
 }
 
 SceneObject* Scene::getRootObject()
 {
-	return sceneRoot;
+    return sceneRoot;
 }
 
 void Scene::setRootObject(SceneObject* root)
 {
-	sceneRoot = root;
+    sceneRoot = root;
+}
+
+void Scene::addDirectionalLight(DirectionalLightComponent* light)
+{
+    directionalLights.push_back(light);
+}
+
+void Scene::addPointLight(PointLightComponent* light)
+{
+    pointLights.push_back(light);
+}
+
+int Scene::getDirectionalsLightsCount()
+{
+    return directionalLights.size();
+}
+
+int Scene::getPointLightsCount()
+{
+    return pointLights.size();
+}
+
+DirectionalLightComponent* Scene::getDirectionalLight(int index)
+{
+    if (index < directionalLights.size()) {
+        return directionalLights[index];
+    }
+    return NULL;
+}
+
+PointLightComponent* Scene::getPointLight(int index)
+{
+    if (index < pointLights.size()) {
+        return pointLights[index];
+    }
+    return NULL;
 }
 
 void Scene::setBackgroundColor(Color color)
@@ -50,5 +86,5 @@ void Scene::Update()
 }
 
 unsigned int Scene::getNextId() {
-	return nextId++;
+    return nextId++;
 }

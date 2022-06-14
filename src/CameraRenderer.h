@@ -15,6 +15,7 @@
 #include "helpers/RootDir.h"
 #include "Shader.h"
 
+#include "LightStructs.h"
 
 class CameraRenderer {
 public:

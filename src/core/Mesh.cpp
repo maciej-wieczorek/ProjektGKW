@@ -7,23 +7,41 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices) :
     setupMesh();
 }
 
-void Mesh::draw(Shader& shader, ShadingInfo& shadingInfo)
+void Mesh::draw(Shader& shader, ShadingInfo& shadingInfo, DirectionalLightS& directioanlLight, std::vector<PointLightS> pointLights)
 {
+    shader.setVec3("dirLight.direction", directioanlLight.direction);
+    shader.setVec3("dirLight.lightColor.ambient", directioanlLight.ambient);
+    shader.setVec3("dirLight.lightColor.diffuse", directioanlLight.diffuse);
+    shader.setVec3("dirLight.lightColor.specular", directioanlLight.specular);
+
+    shader.setInt("numOfPointLights", pointLights.size());
+    for (int i = 0; i < pointLights.size(); ++i) {
+        PointLightS pointLight = pointLights[i];
+        std::string pref = "pointLights[" + std::to_string(i);
+
+        shader.setVec3(pref + "].position", pointLight.position);
+        shader.setVec3(pref + "].lightColor.ambient", pointLight.ambient);
+        shader.setVec3(pref + "].lightColor.diffuse", pointLight.diffuse);
+        shader.setVec3(pref + "].lightColor.specular", pointLight.specular);
+        shader.setFloat(pref + "].constant", pointLight.constant);
+        shader.setFloat(pref + "].linear", pointLight.linear);
+        shader.setFloat(pref + "].quadratic", pointLight.quadratic);
+    }
     // TEMP HARD VALUES
     // ---------------------------------------------------------------------------------
-    shader.setVec3("dirLight.direction", glm::vec3(-0.2f, -1.0f, -0.3f));
+    /*shader.setVec3("dirLight.direction", glm::vec3(-0.2f, -1.0f, -0.3f));
     shader.setVec3("dirLight.lightColor.ambient", glm::vec3(0.05f, 0.05f, 0.05f));
     shader.setVec3("dirLight.lightColor.diffuse", glm::vec3(0.4f, 0.4f, 0.4f));
-    shader.setVec3("dirLight.lightColor.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+    shader.setVec3("dirLight.lightColor.specular", glm::vec3(0.5f, 0.5f, 0.5f));*/
 
-    shader.setInt("numOfPointLights", 1);
+    /*shader.setInt("numOfPointLights", 1);
     shader.setVec3("pointLights[0].position", glm::vec3(0.5f, 0.3f, -0.3f));
     shader.setVec3("pointLights[0].lightColor.ambient", glm::vec3(0.05f, 0.05f, 0.05f));
     shader.setVec3("pointLights[0].lightColor.diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
     shader.setVec3("pointLights[0].lightColor.specular", glm::vec3(1.0f, 1.0f, 1.0f));
     shader.setFloat("pointLights[0].constant", 1.0f);
     shader.setFloat("pointLights[0].linear", 0.09f);
-    shader.setFloat("pointLights[0].quadratic", 0.032f);
+    shader.setFloat("pointLights[0].quadratic", 0.032f);*/
 
     shader.setInt("numOfSpotLights", 0);
     //------------------------------------------------------------------------------------

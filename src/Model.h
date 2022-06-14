@@ -16,6 +16,8 @@
 
 #include "Mesh.h"
 
+#include "LightStructs.h"
+
 class Model
 {
 public:
@@ -29,7 +31,7 @@ public:
     std::vector<Mesh>* getMeshes();
 
     // draws the model, and thus all its meshes
-    void draw(Shader& shader, ShadingInfo& shadingInfo);
+    void draw(Shader& shader, ShadingInfo& shadingInfo, DirectionalLightS& directionalLight, std::vector<PointLightS> pointLights);
 
 private:
     // loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.

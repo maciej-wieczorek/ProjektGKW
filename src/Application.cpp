@@ -69,6 +69,18 @@ int main() {
     camera.addComponent(dynamic_cast<ComponentScript*>(myCamera));
     camera.transform->setPosition(Vector3(0, 0, 15), Transform::Space::GLOBAL);
 
+    SceneObject directionalLight("directional light", &root);
+    SceneObject pointLight("point light", &root);
+
+    DirectionalLightComponent* dirLightC = new DirectionalLightComponent();
+    PointLightComponent* pointLightC = new PointLightComponent();
+
+    directionalLight.addComponent(dirLightC);
+    pointLight.addComponent(pointLightC);
+
+    scene.addDirectionalLight(dirLightC);
+    scene.addPointLight(pointLightC);
+
     CameraRenderer cameraRenderer(mainWindow.getWindow(), myCamera, &scene);
 
     float value = 1;
