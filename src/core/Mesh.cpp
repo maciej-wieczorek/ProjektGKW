@@ -50,21 +50,30 @@ void Mesh::draw(Shader& shader, ShadingInfo& shadingInfo, DirectionalLightS& dir
     switch (shadingInfo.drawType)
     {
     case DrawType::Color:
+    {
         shader.setVec3("color", shadingInfo.color.getVec3());
         shader.setFloat("alpha", shadingInfo.color.vec4.w);
         shader.setFloat("shininess", shadingInfo.shininess);
-        break;
+    }
+    break;
     case DrawType::Material:
-        shader.setVec3("material.ambient", shadingInfo.material->ambient);
-        shader.setVec3("material.diffuse", shadingInfo.material->diffuse);
-        shader.setVec3("material.specular", shadingInfo.material->specular);
-        break;
+    {
+        Material* material = Material::materials[shadingInfo.materialIndex];
+        shader.setVec3("material.ambient", material->ambient);
+        shader.setVec3("material.diffuse", material->diffuse);
+        shader.setVec3("material.specular", material->specular);
+    }
+    break;
     case DrawType::Texture:
+    {
+        Texture* texture = Texture::textures[shadingInfo.textureIndex];
+        int textureID = texture->getID(); // get texture id and load texture from file
         glActiveTexture(GL_TEXTURE0); // active texture unit before binding
         shader.setInt("textureMaterial.diffuse", 0); // set the sampler to the correct texture unit
-        glBindTexture(GL_TEXTURE_2D, shadingInfo.texture->textureID); // bind the texture
+        glBindTexture(GL_TEXTURE_2D, textureID); // bind the texture
         shader.setFloat("shininess", shadingInfo.shininess);
-        break;
+    }
+    break;
     }
 
     // draw mesh
