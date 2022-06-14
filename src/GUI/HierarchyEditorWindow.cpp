@@ -55,6 +55,12 @@ Transform* HierarchyEditorWindow::drawHierarchy(Transform* transform)
         if (ImGui::SmallButton(buttonLabel.c_str())) {
             toReturn = transform;
         }
+        if (selected == transform) {
+            ImGui::SameLine();
+            if (ImGui::SmallButton((std::string("remove##") + std::to_string(transform->getSceneObject()->getId())).c_str())) {
+                transform->setParent(NULL);
+            }
+        }
         if (open)
         {
             for (int i = 0; i < transform->getChildrenCount(); ++i) {

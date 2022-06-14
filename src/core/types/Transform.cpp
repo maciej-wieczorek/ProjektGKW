@@ -26,10 +26,14 @@ Transform* Transform::getParent() {
 
 void Transform::setParent(Transform* parent)
 {
+	if (parent == NULL && this->parent != NULL) {
+		this->parent->removeChild(this);
+	}
 	this->parent = parent;
 	if (parent != NULL) {
 		parent->appendChild(this);
 	}
+
 }
 
 std::vector<Transform*>* Transform::getChildren()
@@ -44,13 +48,22 @@ int Transform::getChildrenCount()
 
 Transform* Transform::getChild(int index)
 {
-	//TODO: add some range validation
 	return children[index];
 }
 
 void Transform::appendChild(Transform* child)
 {
 	children.push_back(child);
+}
+
+void Transform::removeChild(Transform* child)
+{
+	for (unsigned int i = 0; i < children.size(); ++i) {
+		if (children[i] == child) {
+			children.erase(children.begin() + i);
+			break;
+		}
+	}
 }
 
 Quaternion Transform::getParentRotation(Space space)

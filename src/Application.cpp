@@ -13,7 +13,6 @@
 #include "GUI/MaterialEditorWindow.h"
 #include "GUI/ObjectInstantiateWindow.h"
 #include "GUI/LightEditorWindow.h"
-#include "Camera.h"
 #include "CameraRenderer.h"
 #include "Scene.h"
 #include "Shader.h"

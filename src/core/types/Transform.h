@@ -33,6 +33,7 @@ public:
 	int getChildrenCount();
 	Transform* getChild(int index);
 	void appendChild(Transform* child);
+	void removeChild(Transform* child);
 
 	Quaternion getParentRotation(Space space);
 	glm::mat4 getParentMatrix();
@@ -58,11 +59,11 @@ public:
 private:
 	SceneObject * sceneObject;
 
-	Transform * parent;
+	Transform * parent = NULL;
 	std::vector<Transform*> children;
 
 	glm::mat4 localMatrix;
 	glm::mat4 worldMatrix;
-	bool dirty = true; //if any property of this transform was changed in this frame
-	bool calcualted = false; //if matrix was calcualted this frame
+	bool dirty = true;
+	bool calcualted = false;
 };

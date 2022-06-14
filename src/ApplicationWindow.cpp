@@ -45,7 +45,7 @@ ApplicationWindow::ApplicationWindow() : ApplicationWindow(800, 600)
 void ApplicationWindow::setActive()
 {
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(1); // Enable vsync TODO:optionally enable vsync
+    glfwSwapInterval(1);
 }
 
 GLFWwindow* ApplicationWindow::getWindow()
