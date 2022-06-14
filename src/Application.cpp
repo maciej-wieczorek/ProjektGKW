@@ -63,15 +63,20 @@ int main() {
     Model stoolModel(ROOT_DIR "res/models/stool.obj");
     Model tableModel(ROOT_DIR "res/models/table.obj");
 
+    Model planeModel(ROOT_DIR "res/models/plane.obj");
+
     Scene scene;
     scene.setBackgroundColor(Color(0.1, 0.1, 0.1, 1));
     SceneObject root("root");
+    root.setModel(&planeModel);
+    root.setShader(Shader::pink);
     scene.setRootObject(&root);
 
     SceneObject camera("camera", &root);
     CameraComponent* myCamera = new CameraComponent();
     camera.addComponent(dynamic_cast<ComponentScript*>(myCamera));
-    camera.transform->setPosition(Vector3(0, 0, 15), Transform::Space::GLOBAL);
+    camera.transform->setPosition(Vector3(0, 40, 40), Transform::Space::GLOBAL);
+    camera.transform->setRotation(Quaternion(Vector3(1,0,0), -40), Transform::Space::GLOBAL);
 
     SceneObject directionalLight("directional light", &root);
     directionalLight.transform->setRotation(Quaternion(155, 0, 10), Transform::Space::GLOBAL);
